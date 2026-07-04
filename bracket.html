@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC 2026 — Knockout Bracket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700;800&family=Saira+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#00C853;--green-light:#1FE07A;--green-dark:#0d3318;
+  --navy:#0b1018;--navy2:#111827;--navy3:#1f2937;--navy4:#374151;
+  --line:#27313f;--gray3:#9CA3AF;--gray4:#6B7280;--ink:#E8EDF2;
+  --red:#E24B4A;--amber:#F5A623;
+  --r0:#7f1d1d;--r1:#b91c1c;--mid:#52525b;--g1:#15803d;--g0:#16a34a;
+  /* semantic surfaces + adaptive greens (dark defaults) */
+  --body-tint:#16202e;--card-top:#141d2a;--card-bot:#0f1620;--panel-bg:#0c121b;
+  --head:rgba(255,255,255,.03);--hover-fill:rgba(255,255,255,.05);--hover-border:#3b4a5e;
+  --knob:#9aa6b5;--label-dim:rgba(255,255,255,0.5);
+  --pos:#1FE07A;--pos2:#00C853;
+}
+body.light{
+  --navy:#eef1f5;--navy2:#ffffff;--navy3:#eef2f7;--navy4:#e2e8f0;
+  --line:#d8dee7;--ink:#0f172a;--gray3:#475569;--gray4:#64748b;
+  --body-tint:#e7edf4;--card-top:#ffffff;--card-bot:#f5f8fc;--panel-bg:#ffffff;
+  --head:rgba(15,23,42,.04);--hover-fill:rgba(15,23,42,.05);--hover-border:#b9c4d2;
+  --knob:#ffffff;--label-dim:rgba(15,23,42,0.5);
+  --pos:#0a9d4a;--pos2:#067a37;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 70% -10%, var(--body-tint) 0%, var(--navy) 55%);
+  color:var(--ink);font-family:'Saira',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1640px;margin:0 auto;padding:18px 20px 80px}
+header.top{margin-bottom:18px;padding-bottom:15px;border-bottom:1px solid var(--line);position:relative}
+header.top::after{content:"";position:absolute;left:0;bottom:-1px;width:72px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,var(--green),rgba(0,200,83,0))}
+.hdr-main{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.check{background:var(--green);color:var(--green-dark);width:46px;height:46px;border-radius:11px;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:30px;flex:0 0 auto;box-shadow:0 5px 18px rgba(0,200,83,.3)}
+.brand-txt h1{font-family:'Saira Condensed';font-weight:800;font-size:40px;letter-spacing:.4px;line-height:.94}
+.brand-txt .t-thin{background:linear-gradient(90deg,var(--pos),var(--pos2));-webkit-background-clip:text;
+  background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-weight:800}
+.subtitle{font-family:'Saira';font-weight:500;font-size:13px;color:var(--gray3);letter-spacing:.2px;margin-top:7px}
+.subtitle .dim{color:var(--gray4)}
+.hdr-right{display:flex;align-items:center;gap:11px;flex-wrap:wrap;justify-content:flex-end}
+.last-updated{font-family:'Saira Condensed';display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;
+  background:rgba(0,200,83,0.09);border:1px solid rgba(0,200,83,0.4);border-radius:10px;padding:6px 18px;min-width:104px}
+.lu-label{font-size:9px;font-weight:600;color:var(--label-dim);text-transform:uppercase;letter-spacing:1.4px;line-height:1}
+.lu-val{font-size:19px;font-weight:700;color:var(--ink);letter-spacing:.5px;line-height:1.1;margin-top:1px}
+.toolbar{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.switch{display:inline-flex;align-items:center;gap:10px;background:var(--navy3);border:1px solid var(--line);border-radius:10px;
+  padding:7px 14px 7px 11px;cursor:pointer;font-family:'Saira';font-weight:600;font-size:12.5px;color:var(--gray3);transition:.16s;white-space:nowrap}
+.switch:hover{border-color:var(--hover-border)}
+.sw-track{width:38px;height:20px;border-radius:999px;background:var(--navy);border:1px solid var(--line);position:relative;transition:.18s;flex:0 0 auto}
+.sw-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--knob);transition:.18s}
+.switch[aria-checked="true"]{border-color:rgba(0,200,83,.5);background:rgba(0,200,83,.10);color:var(--pos)}
+.switch[aria-checked="true"] .sw-track{background:var(--green);border-color:transparent}
+.switch[aria-checked="true"] .sw-knob{left:20px;background:var(--green-dark)}
+.btn{font-family:'Saira';font-weight:600;font-size:12px;color:var(--ink);background:var(--navy3);border:1px solid var(--line);
+  border-radius:8px;padding:8px 13px;cursor:pointer;transition:.15s;letter-spacing:.2px;white-space:nowrap}
+.btn:hover{background:var(--navy4);border-color:var(--hover-border)}
+.btn.primary{background:rgba(0,200,83,.12);color:var(--pos);border-color:rgba(0,200,83,.4)}
+.btn.primary:hover{background:rgba(0,200,83,.2);border-color:var(--green)}
+.hdr-legend{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.leg-scale{display:flex;align-items:center;gap:9px}
+.leg-label{font-family:'Saira Condensed';font-weight:600;letter-spacing:.6px;text-transform:uppercase;font-size:10.5px;color:var(--gray4)}
+.scale{height:8px;width:118px;border-radius:5px;background:linear-gradient(90deg,var(--r1),var(--mid),var(--g0))}
+.leg-ends{font-size:10.5px;color:var(--gray4)}
+.hints{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-size:10.5px;color:var(--gray3);background:var(--navy2);border:1px solid var(--line);border-radius:999px;
+  padding:4px 11px;letter-spacing:.2px;white-space:nowrap}
+.chip b{color:var(--ink);font-weight:600}
+
+/* BRACKET LAYOUT */
+.board{display:flex;gap:14px;overflow-x:auto;padding-bottom:18px;align-items:stretch;flex:1 1 auto;min-width:0}
+.boardrow{display:flex;gap:18px;align-items:flex-start}
+.standings{flex:0 0 336px;display:none;flex-direction:column;gap:12px}
+.standings.on{display:flex}
+.st-title{font-family:'Saira Condensed';font-weight:700;font-size:16px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink);padding:6px 0 2px}
+.st-sub{font-size:11px;color:var(--gray4);margin-top:-6px;margin-bottom:2px}
+.st-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.st-grp{background:linear-gradient(180deg,var(--card-top),var(--card-bot));border:1px solid var(--line);border-radius:10px;padding:8px 9px}
+.st-gh{font-family:'Saira Condensed';font-weight:700;font-size:12px;letter-spacing:1.2px;color:var(--gray3);text-transform:uppercase;margin-bottom:5px;display:flex;justify-content:space-between}
+.st-gh .st-cols{color:var(--gray4);font-family:inherit;letter-spacing:.5px}
+.st-row{display:grid;grid-template-columns:13px 16px 1fr 18px 22px 20px;align-items:center;gap:5px;font-size:11.5px;padding:2px 0;color:var(--ink)}
+.st-row .st-pos{color:var(--gray4);font-size:10px;text-align:center}
+.st-row .st-nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-row .st-n{text-align:center;color:var(--gray3);font-variant-numeric:tabular-nums}
+.st-row .st-pts{text-align:center;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.st-row.qual{border-left:2px solid var(--pos);margin-left:-9px;padding-left:7px}
+.st-row .st-q{color:var(--pos);font-size:10px}
+.st-row.adv .st-pos{color:var(--pos)}
+.col{display:flex;flex-direction:column;min-width:208px;flex:0 0 auto}
+.col.center{min-width:236px}
+.coltitle{font-family:'Saira Condensed';font-weight:700;font-size:16px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--ink);text-align:center;padding:6px 0 9px;position:sticky;top:0;background:transparent;z-index:2}
+.colbody{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:8px}
+
+.match{background:linear-gradient(180deg,var(--card-top),var(--card-bot));border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;position:relative;transition:.15s;cursor:pointer}
+.match:hover{border-color:var(--hover-border);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.match.sel{border-color:var(--green);box-shadow:0 0 0 1px var(--green),0 0 22px rgba(0,200,83,.25)}
+.mhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:6px 10px;background:var(--head);
+  border-bottom:1px solid var(--line)}
+.mhead b{color:var(--ink);font-weight:700;font-size:12px;letter-spacing:.3px;white-space:nowrap;flex:0 0 auto}
+.mhead .mv{font-family:'Saira';color:var(--gray3);font-weight:500;font-size:11px;letter-spacing:.2px;text-align:right;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot{display:flex;align-items:center;gap:9px;padding:10px 11px;min-height:42px;position:relative}
+.slot+.slot{border-top:1px solid var(--line)}
+.slot .fl{font-size:20px;line-height:1;width:24px;text-align:center;flex:0 0 auto}
+.slot .nm{font-weight:600;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.slot.ph .nm{color:var(--gray4);font-weight:500;font-style:italic;font-size:14.5px}
+.slot .wp{font-family:'Saira Condensed';font-weight:700;font-size:11.5px;color:var(--gray3);flex:0 0 auto}
+.slot.win{background:rgba(0,200,83,.07)}
+.slot.win .nm{color:var(--pos)}
+.slot.win::after{content:"✓";color:var(--green);font-size:11px;font-weight:800;margin-left:2px}
+.slot.clk:hover{background:var(--hover-fill)}
+.slot select{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;border:0}
+.advbtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:9px;background:var(--navy4);
+  border:1px solid var(--line);border-radius:5px;color:var(--gray3);padding:2px 5px;cursor:pointer;opacity:0;transition:.12s}
+.match:hover .advbtn{opacity:1}
+.advbtn:hover{background:var(--green);color:#06140a;border-color:transparent}
+.clrbtn{position:absolute;left:4px;top:4px;width:16px;height:16px;border-radius:50%;border:1px solid var(--line);
+  background:var(--navy3);color:var(--gray3);font-size:8.5px;line-height:1;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;transition:.12s;padding:0;z-index:3}
+.match:hover .clrbtn{opacity:.8}
+.clrbtn:hover{opacity:1;background:var(--red);color:#fff;border-color:transparent}
+.spacer{flex:1}
+
+/* champion banner */
+.champwrap{display:flex;flex-direction:column;justify-content:center;min-width:200px}
+.champ-card{background:linear-gradient(180deg,var(--card-top),var(--card-bot));border:1px solid var(--green);border-radius:12px;
+  padding:16px;text-align:center;box-shadow:0 0 30px rgba(0,200,83,.18)}
+.champ-card .lbl{font-family:'Saira Condensed';letter-spacing:2px;font-size:11px;color:var(--pos);text-transform:uppercase}
+.champ-card .fl{font-size:40px;margin:8px 0 2px}
+.champ-card .nm{font-family:'Saira Condensed';font-weight:700;font-size:20px}
+.champ-card .sub{font-size:11px;color:var(--gray4);margin-top:4px}
+
+/* DETAIL PANEL */
+.panel{position:fixed;top:0;right:0;height:100%;width:400px;max-width:92vw;background:var(--panel-bg);
+  border-left:1px solid var(--line);box-shadow:-12px 0 40px rgba(0,0,0,.5);transform:translateX(100%);
+  transition:transform .22s cubic-bezier(.4,0,.2,1);z-index:40;overflow-y:auto;padding:18px 18px 40px}
+.panel.open{transform:translateX(0)}
+.panel .x{position:absolute;top:14px;right:14px;background:var(--navy3);border:1px solid var(--line);color:var(--ink);
+  width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px}
+.panel .x:hover{background:var(--navy4)}
+.ph-team{display:flex;align-items:center;gap:11px;margin:2px 0 14px}
+.ph-team .fl{font-size:34px}
+.ph-team .nm{font-family:'Saira Condensed';font-weight:700;font-size:23px;line-height:1}
+.ph-team .meta{font-size:11.5px;color:var(--gray3);margin-top:3px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.kpi{background:var(--navy2);border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.kpi .k{font-size:10px;letter-spacing:.5px;color:var(--gray4);text-transform:uppercase}
+.kpi .v{font-family:'Saira Condensed';font-weight:700;font-size:19px;margin-top:1px}
+.sectitle{font-family:'Saira Condensed';font-weight:700;letter-spacing:1px;font-size:12px;color:var(--gray3);
+  text-transform:uppercase;margin:6px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.ladder{display:flex;flex-direction:column;gap:5px;margin-bottom:18px}
+.lrow{display:grid;grid-template-columns:78px 1fr 46px;align-items:center;gap:8px;font-size:12px}
+.lrow .lb{color:var(--gray3)}
+.bar{height:15px;border-radius:4px;background:var(--navy3);overflow:hidden;position:relative}
+.bar>span{position:absolute;inset:0 auto 0 0;border-radius:4px}
+.lrow .pv{font-family:'Saira Condensed';font-weight:700;text-align:right}
+.cmp{display:grid;grid-template-columns:1fr 30px 1fr;gap:6px;align-items:center;margin-bottom:18px}
+.cmp .ct{text-align:center}
+.cmp .ct .fl{font-size:26px}
+.cmp .ct .nm{font-family:'Saira Condensed';font-weight:700;font-size:14px;line-height:1.05;margin-top:2px}
+.cmp .ct .gp{font-size:10px;color:var(--gray4)}
+.cmp .vs{text-align:center;font-family:'Saira Condensed';color:var(--gray4);font-size:12px}
+.cmprow{display:grid;grid-template-columns:1fr 80px 1fr;gap:6px;align-items:center;font-size:12px;
+  padding:5px 0;border-bottom:1px solid var(--line)}
+.cmprow .clab{text-align:center;color:var(--gray4);font-size:10px;letter-spacing:.4px;text-transform:uppercase}
+.cmprow .cv{font-family:'Saira Condensed';font-weight:700;font-size:14px}
+.cmprow .cv.l{text-align:right}.cmprow .cv.r{text-align:left}
+.cand{font-size:12px;color:var(--gray3);line-height:1.6}
+.cblock{margin-bottom:16px}
+.chead{font-family:'Saira Condensed';font-weight:700;font-size:14.5px;color:var(--ink);letter-spacing:.3px;
+  display:flex;flex-direction:column;gap:2px;margin-bottom:9px}
+.chead .csub{font-family:'Saira';font-weight:500;font-size:10.5px;color:var(--gray4);letter-spacing:.2px}
+.crow{display:grid;grid-template-columns:22px 1fr 64px 46px;align-items:center;gap:9px;padding:4px 0}
+.crfl{font-size:18px;text-align:center;line-height:1}
+.crnm{font-size:13.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crbar{height:13px;border-radius:4px;background:var(--navy3);overflow:hidden;position:relative}
+.crbar>i{position:absolute;inset:0 auto 0 0;border-radius:4px}
+.crpct{font-family:'Saira Condensed';font-weight:700;font-size:13.5px;text-align:right;color:var(--ink)}
+.gsplit{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:4px}
+.gsplit .gcell{background:var(--navy2);border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center}
+.gsplit .gp{font-size:10px;letter-spacing:.5px;color:var(--gray4);text-transform:uppercase}
+.gsplit .gv{font-family:'Saira Condensed';font-weight:700;font-size:15px;margin-top:1px}
+.prov{font-size:10px;color:var(--gray4);line-height:1.5;margin-top:16px;padding-top:10px;border-top:1px solid var(--line)}
+.accent{height:4px;border-radius:3px;margin:-2px 0 14px}
+.line{display:flex;align-items:center;gap:10px;background:var(--navy2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;margin-bottom:14px}
+.line .li-ic{color:var(--pos);font-size:14px;flex:0 0 auto}
+.li-k{display:block;font-size:10px;letter-spacing:.5px;color:var(--gray4);text-transform:uppercase;line-height:1.2}
+.li-v{display:block;font-size:13.5px;color:var(--ink);font-weight:600;margin-top:1px}
+.formhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.pills{display:flex;gap:5px}
+.fp{width:21px;height:21px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Saira Condensed';font-weight:700;font-size:11px;color:#fff}
+.fp-W{background:var(--g0)}.fp-D{background:var(--gray4)}.fp-L{background:var(--red)}
+.formhead .rec{font-family:'Saira Condensed';font-weight:700;font-size:13px;color:var(--gray3)}
+.frows{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+.frow{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:9px;font-size:12.5px}
+.fr-r{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:#fff;font-family:'Saira Condensed'}
+.fr-o{color:var(--gray3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fr-s{font-family:'Saira Condensed';font-weight:700;color:var(--ink)}
+.sp2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.spc{background:var(--navy2);border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+.cand b{color:var(--ink)}
+.note{font-size:11px;color:var(--gray4);background:var(--navy2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;line-height:1.5;margin-bottom:14px}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.2s;z-index:35}
+.scrim.on{opacity:1;pointer-events:auto}
+@media(max-width:1180px){
+  .boardrow{flex-direction:column}
+  .standings{flex-basis:auto;width:100%}
+  .standings.on{display:flex}
+  .st-grid{grid-template-columns:1fr 1fr 1fr}
+}
+@media(max-width:640px){
+  .wrap{padding:12px 10px 60px}
+  .brand-txt h1{font-size:28px}
+  .check{width:38px;height:38px;font-size:25px;border-radius:9px}
+  .subtitle{font-size:11.5px}
+  .panel{width:100vw;max-width:100vw;padding:16px 14px 44px}
+  .hdr-legend{margin-top:11px;padding-top:10px}
+  .chip{font-size:10px;padding:4px 9px}
+  .lu-val{font-size:17px}
+  .st-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="hdr-main">
+      <div class="brand">
+        <span class="check">✓</span>
+        <div class="brand-txt">
+          <h1>World Cup 2026 <span class="t-thin">— Knockout Bracket</span></h1>
+          <div class="subtitle">Action Network Projections <span class="dim" id="srcLabel">· via Nick Giffen &amp; others</span></div>
+        </div>
+      </div>
+      <div class="hdr-right">
+        <div class="last-updated">
+          <span class="lu-label">Last Updated</span>
+          <span class="lu-val" id="lastUpdated">—</span>
+        </div>
+        <div class="toolbar">
+          <button class="switch" id="projToggle" role="switch" aria-checked="false"
+            title="On: fill all Winner/Runner-up slots with projected teams · Off: clear the board">
+            <span class="sw-track"><span class="sw-knob"></span></span>
+            <span class="sw-label">Projected teams</span>
+          </button>
+          <button class="switch" id="themeToggle" role="switch" aria-checked="false"
+            title="Toggle light / dark appearance">
+            <span class="sw-track"><span class="sw-knob"></span></span>
+            <span class="sw-label">Light mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="hdr-legend">
+      <div class="leg-scale">
+        <span class="leg-label">Win probability</span>
+        <span class="scale"></span>
+        <span class="leg-ends">low → high</span>
+      </div>
+      <div class="hints">
+        <span class="chip">Tap a <b>team</b> — full path</span>
+        <span class="chip">Tap a <b>match</b> — compare</span>
+        <span class="chip">Tap an <b>empty slot</b> — assign</span>
+      </div>
+    </div>
+  </header>
+  <div class="boardrow">
+    <div class="board" id="board"></div>
+    <aside class="standings" id="standings"></aside>
+  </div>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel"><button class="x" id="px">✕</button><div id="pbody"></div></aside>
+
+<script>
+const WC = {"TEAMS": {"Spain": {"group": "H", "flag": "🇪🇸", "fifa": 2, "elo": 2171, "qualify": 1.0, "r16": 1.0, "qf": 0.614, "sf": 0.424, "final": 0.224, "champ": 0.132, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.05, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 6.08, "p_w": 1.62, "p_d": 1.21, "p_l": 0.17, "p_gf": 5.87, "p_ga": 0.84, "p_gd": 5.03, "proj_rank": 0, "color": "#C60B1E", "wcApps": 16, "prev": "Champion", "mgr": {"name": "Luis de la Fuente", "nat": "Spain", "yr": "2022"}, "sp": {"pen": "Mikel Oyarzabal", "ck": "Lamine Yamal"}, "form": [{"o": "Georgia", "gf": 4, "ga": 0, "r": "W"}, {"o": "Turkey", "gf": 2, "ga": 2, "r": "D"}, {"o": "Serbia", "gf": 3, "ga": 0, "r": "W"}, {"o": "Egypt", "gf": 0, "ga": 0, "r": "D"}, {"o": "Iraq", "gf": 1, "ga": 1, "r": "D"}, {"o": "Peru", "gf": 3, "ga": 1, "r": "W"}], "rec": {"W": 7, "D": 3, "L": 0}, "mkt": 0.16}, "Argentina": {"group": "J", "flag": "🇦🇷", "fifa": 1, "elo": 2113, "qualify": 1.0, "r16": 1.0, "qf": 0.858, "sf": 0.597, "final": 0.279, "champ": 0.118, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 8.6, "p_w": 2.83, "p_d": 0.12, "p_l": 0.05, "p_gf": 7.55, "p_ga": 0.47, "p_gd": 7.08, "proj_rank": 0, "color": "#75AADB", "wcApps": 18, "prev": "Champion", "mgr": {"name": "Lionel Scaloni", "nat": "Argentina", "yr": "2018"}, "sp": {"pen": "Lionel Messi", "ck": "Lionel Messi"}, "form": [{"o": "Puerto Rico", "gf": 6, "ga": 0, "r": "W"}, {"o": "Angola", "gf": 2, "ga": 0, "r": "W"}, {"o": "Mauritania", "gf": 2, "ga": 1, "r": "W"}, {"o": "Zambia", "gf": 5, "ga": 0, "r": "W"}, {"o": "Honduras", "gf": 2, "ga": 0, "r": "W"}, {"o": "Iceland", "gf": 3, "ga": 0, "r": "W"}], "rec": {"W": 8, "D": 1, "L": 1}, "mkt": 0.1379}, "France": {"group": "I", "flag": "🇫🇷", "fifa": 3, "elo": 2063, "qualify": 1.0, "r16": 1.0, "qf": 0.915, "sf": 0.727, "final": 0.459, "champ": 0.293, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 7.91, "p_w": 2.56, "p_d": 0.22, "p_l": 0.22, "p_gf": 7.81, "p_ga": 2.03, "p_gd": 5.78, "proj_rank": 0, "color": "#0055A4", "wcApps": 16, "prev": "Final", "mgr": {"name": "Didier Deschamps", "nat": "France", "yr": "2012"}, "sp": {"pen": "Kylian Mbappé", "ck": "Michael Olise"}, "form": [{"o": "Ukraine", "gf": 4, "ga": 0, "r": "W"}, {"o": "Azerbaijan", "gf": 3, "ga": 1, "r": "W"}, {"o": "Brazil", "gf": 2, "ga": 1, "r": "W"}, {"o": "Colombia", "gf": 3, "ga": 1, "r": "W"}, {"o": "Ivory Coast", "gf": 1, "ga": 2, "r": "L"}, {"o": "Northern Ireland", "gf": 3, "ga": 1, "r": "W"}], "rec": {"W": 8, "D": 1, "L": 1}, "mkt": 0.2}, "Brazil": {"group": "C", "flag": "🇧🇷", "fifa": 6, "elo": 1979, "qualify": 1.0, "r16": 1.0, "qf": 0.647, "sf": 0.323, "final": 0.199, "champ": 0.088, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.092, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 6.21, "p_w": 1.67, "p_d": 1.2, "p_l": 0.13, "p_gf": 5.88, "p_ga": 1.67, "p_gd": 4.21, "proj_rank": 0, "color": "#FEDF00", "wcApps": 22, "prev": "Quarterfinal", "mgr": {"name": "Carlo Ancelotti", "nat": "Italy", "yr": "2025"}, "sp": {"pen": "Raphinha", "ck": "Raphinha"}, "form": [{"o": "Senegal", "gf": 2, "ga": 0, "r": "W"}, {"o": "Tunisia", "gf": 1, "ga": 1, "r": "D"}, {"o": "France", "gf": 1, "ga": 2, "r": "L"}, {"o": "Croatia", "gf": 3, "ga": 1, "r": "W"}, {"o": "Panama", "gf": 6, "ga": 2, "r": "W"}, {"o": "Egypt", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 6, "D": 1, "L": 3}, "mkt": 0.0769}, "England": {"group": "L", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "fifa": 4, "elo": 2042, "qualify": 1.0, "r16": 1.0, "qf": 0.698, "sf": 0.445, "final": 0.308, "champ": 0.172, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.005, "g4": 0.002, "win_grp": 1.0, "top2": 1.0, "p_pts": 8.04, "p_w": 2.59, "p_d": 0.28, "p_l": 0.13, "p_gf": 8.87, "p_ga": 3.07, "p_gd": 5.8, "proj_rank": 0, "color": "#CE1124", "wcApps": 16, "prev": "Quarterfinal", "mgr": {"name": "Thomas Tuchel", "nat": "Germany", "yr": "2025"}, "sp": {"pen": "Harry Kane", "ck": "Declan Rice"}, "form": [{"o": "Serbia", "gf": 2, "ga": 0, "r": "W"}, {"o": "Albania", "gf": 2, "ga": 0, "r": "W"}, {"o": "Uruguay", "gf": 1, "ga": 1, "r": "D"}, {"o": "Japan", "gf": 0, "ga": 1, "r": "L"}, {"o": "New Zealand", "gf": 1, "ga": 0, "r": "W"}, {"o": "Costa Rica", "gf": 3, "ga": 0, "r": "W"}], "rec": {"W": 8, "D": 1, "L": 1}, "mkt": 0.1379}, "Portugal": {"group": "K", "flag": "🇵🇹", "fifa": 5, "elo": 1976, "qualify": 1.0, "r16": 1.0, "qf": 0.386, "sf": 0.25, "final": 0.119, "champ": 0.064, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.148, "g4": 0.036, "win_grp": 0.0, "top2": 1.0, "p_pts": 5.33, "p_w": 1.32, "p_d": 1.39, "p_l": 0.3, "p_gf": 4.95, "p_ga": 2.45, "p_gd": 2.5, "proj_rank": 1, "color": "#FF0000", "wcApps": 8, "prev": "Quarterfinal", "mgr": {"name": "Roberto Martinez", "nat": "Spain", "yr": "2023"}, "sp": {"pen": "Cristiano Ronaldo", "ck": "Bruno Fernandes"}, "form": [{"o": "Republic of Ireland", "gf": 0, "ga": 2, "r": "L"}, {"o": "Armenia", "gf": 9, "ga": 1, "r": "W"}, {"o": "Mexico", "gf": 0, "ga": 0, "r": "D"}, {"o": "USA", "gf": 2, "ga": 0, "r": "W"}, {"o": "Chile", "gf": 2, "ga": 1, "r": "W"}, {"o": "Nigeria", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 7, "D": 2, "L": 1}, "mkt": 0.0833}, "Germany": {"group": "E", "flag": "🇩🇪", "fifa": 10, "elo": 1910, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 7.81, "p_w": 2.53, "p_d": 0.23, "p_l": 0.24, "p_gf": 10.73, "p_ga": 3.1, "p_gd": 7.63, "proj_rank": 0, "color": "#000000", "wcApps": 20, "prev": "Group Stage", "mgr": {"name": "Julian Nagelsmann", "nat": "Germany", "yr": "2023"}, "sp": {"pen": "Kai Havertz", "ck": "Joshua Kimmich"}, "form": [{"o": "Luxembourg", "gf": 2, "ga": 0, "r": "W"}, {"o": "Slovakia", "gf": 6, "ga": 0, "r": "W"}, {"o": "Switzerland", "gf": 4, "ga": 3, "r": "W"}, {"o": "Ghana", "gf": 2, "ga": 1, "r": "W"}, {"o": "Finland", "gf": 4, "ga": 0, "r": "W"}, {"o": "USA", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 9, "D": 0, "L": 1}, "mkt": 0.069}, "Netherlands": {"group": "F", "flag": "🇳🇱", "fifa": 8, "elo": 1959, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.008, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 6.51, "p_w": 1.79, "p_d": 1.14, "p_l": 0.07, "p_gf": 9.35, "p_ga": 3.52, "p_gd": 5.83, "proj_rank": 0, "color": "#FF6B00", "wcApps": 11, "prev": "Quarterfinal", "mgr": {"name": "Ronald Koeman", "nat": "Netherlands", "yr": "2023"}, "sp": {"pen": "Cody Gakpo", "ck": "Memphis Depay"}, "form": [{"o": "Poland", "gf": 1, "ga": 1, "r": "D"}, {"o": "Lithuania", "gf": 4, "ga": 0, "r": "W"}, {"o": "Norway", "gf": 2, "ga": 1, "r": "W"}, {"o": "Ecuador", "gf": 1, "ga": 1, "r": "D"}, {"o": "Algeria", "gf": 0, "ga": 1, "r": "L"}, {"o": "Uzbekistan", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 6, "D": 3, "L": 1}, "mkt": 0.0667}, "Colombia": {"group": "K", "flag": "🇨🇴", "fifa": 13, "elo": 1998, "qualify": 1.0, "r16": 1.0, "qf": 0.538, "sf": 0.188, "final": 0.053, "champ": 0.012, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.109, "g4": 0.004, "win_grp": 1.0, "top2": 1.0, "p_pts": 5.81, "p_w": 1.77, "p_d": 0.51, "p_l": 0.72, "p_gf": 5.36, "p_ga": 3.29, "p_gd": 2.07, "proj_rank": 0, "color": "#FFCD00", "wcApps": 6, "prev": "DNQ", "mgr": {"name": "Néstor Lorenzo", "nat": "Argentina", "yr": "2022"}, "sp": {"pen": "James Rodríguez", "ck": "James Rodríguez"}, "form": [{"o": "New Zealand", "gf": 2, "ga": 1, "r": "W"}, {"o": "Australia", "gf": 3, "ga": 0, "r": "W"}, {"o": "Croatia", "gf": 1, "ga": 2, "r": "L"}, {"o": "France", "gf": 1, "ga": 3, "r": "L"}, {"o": "Costa Rica", "gf": 3, "ga": 1, "r": "W"}, {"o": "Jordan", "gf": 2, "ga": 0, "r": "W"}], "rec": {"W": 7, "D": 1, "L": 2}, "mkt": 0.0217}, "Belgium": {"group": "G", "flag": "🇧🇪", "fifa": 9, "elo": 1849, "qualify": 1.0, "r16": 1.0, "qf": 0.479, "sf": 0.16, "final": 0.058, "champ": 0.022, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.075, "g4": 0.042, "win_grp": 1.0, "top2": 1.0, "p_pts": 4.46, "p_w": 0.77, "p_d": 2.15, "p_l": 0.08, "p_gf": 3.32, "p_ga": 1.57, "p_gd": 1.74, "proj_rank": 1, "color": "#ED2939", "wcApps": 14, "prev": "Group Stage", "mgr": {"name": "Rudi Garcia", "nat": "France", "yr": "2025"}, "sp": {"pen": "Kevin De Bruyne", "ck": "Kevin De Bruyne"}, "form": [{"o": "Kazakhstan", "gf": 1, "ga": 1, "r": "D"}, {"o": "Liechtenstein", "gf": 7, "ga": 0, "r": "W"}, {"o": "USA", "gf": 5, "ga": 2, "r": "W"}, {"o": "Mexico", "gf": 1, "ga": 1, "r": "D"}, {"o": "Croatia", "gf": 2, "ga": 0, "r": "W"}, {"o": "Tunisia", "gf": 5, "ga": 0, "r": "W"}], "rec": {"W": 7, "D": 3, "L": 0}, "mkt": 0.0217}, "Morocco": {"group": "C", "flag": "🇲🇦", "fifa": 7, "elo": 1872, "qualify": 1.0, "r16": 1.0, "qf": 0.711, "sf": 0.192, "final": 0.067, "champ": 0.025, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.007, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 6.39, "p_w": 1.74, "p_d": 1.16, "p_l": 0.09, "p_gf": 4.23, "p_ga": 1.63, "p_gd": 2.6, "proj_rank": 1, "color": "#C1272D", "wcApps": 6, "prev": "Fourth", "mgr": {"name": "Mohamed Ouahbi", "nat": "Morocco (born in Belgium)", "yr": "2026"}, "sp": {"pen": "Achraf Hakimi", "ck": "Achraf Hakimi"}, "form": [{"o": "Senegal", "gf": 3, "ga": 0, "r": "W"}, {"o": "Ecuador", "gf": 1, "ga": 1, "r": "D"}, {"o": "Paraguay", "gf": 2, "ga": 1, "r": "W"}, {"o": "Burundi", "gf": 5, "ga": 0, "r": "W"}, {"o": "Madagascar", "gf": 4, "ga": 0, "r": "W"}, {"o": "Norway", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 7, "D": 3, "L": 0}, "mkt": 0.0267}, "Norway": {"group": "I", "flag": "🇳🇴", "fifa": 31, "elo": 1922, "qualify": 1.0, "r16": 1.0, "qf": 0.353, "sf": 0.147, "final": 0.075, "champ": 0.026, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.0, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 6.87, "p_w": 2.22, "p_d": 0.22, "p_l": 0.56, "p_gf": 8.03, "p_ga": 4.81, "p_gd": 3.22, "proj_rank": 1, "color": "#EF2B2D", "wcApps": 3, "prev": "DNQ", "mgr": {"name": "Ståle Solbakken", "nat": "Norway", "yr": "2020"}, "sp": {"pen": "Erling Haaland", "ck": "Martin Ødegaard"}, "form": [{"o": "Estonia", "gf": 4, "ga": 1, "r": "W"}, {"o": "Italy", "gf": 4, "ga": 1, "r": "W"}, {"o": "Netherlands", "gf": 1, "ga": 2, "r": "L"}, {"o": "Switzerland", "gf": 0, "ga": 0, "r": "D"}, {"o": "Sweden", "gf": 3, "ga": 1, "r": "W"}, {"o": "Morocco", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 6, "D": 3, "L": 1}, "mkt": 0.0351}, "United States": {"group": "D", "flag": "🇺🇸", "fifa": 17, "elo": 1845, "qualify": 1.0, "r16": 1.0, "qf": 0.521, "sf": 0.166, "final": 0.054, "champ": 0.023, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 7.63, "p_w": 2.46, "p_d": 0.26, "p_l": 0.29, "p_gf": 7.41, "p_ga": 2.06, "p_gd": 5.36, "proj_rank": 0, "color": "#3C3B6E", "wcApps": 11, "prev": "Round of 16", "mgr": {"name": "Mauricio Pochettino", "nat": "Argentina", "yr": "2024"}, "sp": {"pen": "Christian Pulisic", "ck": "Christian Pulisic"}, "form": [{"o": "Paraguay", "gf": 2, "ga": 1, "r": "W"}, {"o": "Uruguay", "gf": 5, "ga": 1, "r": "W"}, {"o": "Belgium", "gf": 2, "ga": 5, "r": "L"}, {"o": "Portugal", "gf": 0, "ga": 2, "r": "L"}, {"o": "Senegal", "gf": 3, "ga": 2, "r": "W"}, {"o": "Germany", "gf": 1, "ga": 2, "r": "L"}], "rec": {"W": 5, "D": 1, "L": 4}, "mkt": 0.0286}, "Mexico": {"group": "A", "flag": "🇲🇽", "fifa": 14, "elo": 1819, "qualify": 1.0, "r16": 1.0, "qf": 0.302, "sf": 0.085, "final": 0.031, "champ": 0.007, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 7.67, "p_w": 2.46, "p_d": 0.27, "p_l": 0.26, "p_gf": 4.31, "p_ga": 0.91, "p_gd": 3.4, "proj_rank": 0, "color": "#006847", "wcApps": 17, "prev": "Group Stage", "mgr": {"name": "Javier Aguirre", "nat": "Mexico", "yr": "2024"}, "sp": {"pen": "Raúl Jiménez", "ck": "Alexis Vega"}, "form": [{"o": "Iceland", "gf": 4, "ga": 0, "r": "W"}, {"o": "Portugal", "gf": 0, "ga": 0, "r": "D"}, {"o": "Belgium", "gf": 1, "ga": 1, "r": "D"}, {"o": "Ghana", "gf": 2, "ga": 0, "r": "W"}, {"o": "Australia", "gf": 1, "ga": 0, "r": "W"}, {"o": "Serbia", "gf": 5, "ga": 1, "r": "W"}], "rec": {"W": 6, "D": 3, "L": 1}, "mkt": 0.0187}, "Switzerland": {"group": "B", "flag": "🇨🇭", "fifa": 19, "elo": 1897, "qualify": 1.0, "r16": 1.0, "qf": 0.462, "sf": 0.17, "final": 0.048, "champ": 0.012, "adv3": 0.0, "g1": 1.0, "g2": 0.0, "g3": 0.0, "g4": 0.0, "win_grp": 1.0, "top2": 1.0, "p_pts": 5.42, "p_w": 1.38, "p_d": 1.26, "p_l": 0.35, "p_gf": 6.26, "p_ga": 3.19, "p_gd": 3.06, "proj_rank": 1, "color": "#FF0000", "wcApps": 12, "prev": "Round of 16", "mgr": {"name": "Murat Yakin", "nat": "Switzerland", "yr": "2021"}, "sp": {"pen": "Granit Xhaka", "ck": "Granit Xhaka"}, "form": [{"o": "Sweden", "gf": 4, "ga": 1, "r": "W"}, {"o": "Kosovo", "gf": 1, "ga": 1, "r": "D"}, {"o": "Germany", "gf": 3, "ga": 4, "r": "L"}, {"o": "Norway", "gf": 0, "ga": 0, "r": "D"}, {"o": "Jordan", "gf": 4, "ga": 1, "r": "W"}, {"o": "Australia", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 5, "D": 4, "L": 1}, "mkt": 0.0123}, "Croatia": {"group": "L", "flag": "🇭🇷", "fifa": 11, "elo": 1933, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.242, "g4": 0.095, "win_grp": 0.0, "top2": 1.0, "p_pts": 3.94, "p_w": 1.16, "p_d": 0.46, "p_l": 1.38, "p_gf": 5.37, "p_ga": 5.65, "p_gd": -0.28, "proj_rank": 1, "color": "#FF0000", "wcApps": 6, "prev": "Third Place", "mgr": {"name": "Zlatko Dalić", "nat": "Croatia", "yr": "2017"}, "sp": {"pen": "Luka Modrić", "ck": "Luka Modrić"}, "form": [{"o": "Faroe Islands", "gf": 3, "ga": 1, "r": "W"}, {"o": "Montenegro", "gf": 3, "ga": 2, "r": "W"}, {"o": "Colombia", "gf": 2, "ga": 1, "r": "W"}, {"o": "Brazil", "gf": 1, "ga": 3, "r": "L"}, {"o": "Belgium", "gf": 0, "ga": 2, "r": "L"}, {"o": "Slovenia", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 7, "D": 1, "L": 2}, "mkt": 0.0099}, "Uruguay": {"group": "H", "flag": "🇺🇾", "fifa": 16, "elo": 1890, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.687, "g4": 0.127, "win_grp": 0.0, "top2": 0.0, "p_pts": 2.71, "p_w": 0.17, "p_d": 2.21, "p_l": 0.62, "p_gf": 3.84, "p_ga": 4.87, "p_gd": -1.03, "proj_rank": 2, "color": "#7B68EE", "wcApps": 14, "prev": "Group Stage", "mgr": {"name": "Marcelo Bielsa", "nat": "Argentina", "yr": "2023"}, "sp": {"pen": "Federico Valverde", "ck": "Federico Valverde"}, "form": [{"o": "Dominican Republic", "gf": 1, "ga": 0, "r": "W"}, {"o": "Uzbekistan", "gf": 2, "ga": 1, "r": "W"}, {"o": "Mexico", "gf": 0, "ga": 0, "r": "D"}, {"o": "USA", "gf": 1, "ga": 5, "r": "L"}, {"o": "England", "gf": 1, "ga": 1, "r": "D"}, {"o": "Algeria", "gf": 0, "ga": 0, "r": "D"}], "rec": {"W": 4, "D": 4, "L": 2}, "mkt": 0.0066}, "Austria": {"group": "J", "flag": "🇦🇹", "fifa": 24, "elo": 1730, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.344, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 4.4, "p_w": 1.38, "p_d": 0.28, "p_l": 1.35, "p_gf": 4.16, "p_ga": 4.1, "p_gd": 0.06, "proj_rank": 1, "color": "#ED2939", "wcApps": 8, "prev": "DNQ", "mgr": {"name": "Ralf Rangnick", "nat": "Germany", "yr": "2022"}, "sp": {"pen": "Marcel Sabitzer", "ck": "Marcel Sabitzer"}, "form": [{"o": "Romania", "gf": 0, "ga": 1, "r": "L"}, {"o": "Cyprus", "gf": 2, "ga": 0, "r": "W"}, {"o": "Bosnia and Herzegovina", "gf": 1, "ga": 1, "r": "D"}, {"o": "Ghana", "gf": 5, "ga": 1, "r": "W"}, {"o": "South Korea", "gf": 1, "ga": 0, "r": "W"}, {"o": "Tunisia", "gf": 1, "ga": 0, "r": "W"}], "rec": {"W": 8, "D": 1, "L": 1}, "mkt": 0.007}, "Egypt": {"group": "G", "flag": "🇪🇬", "fifa": 29, "elo": 1745, "qualify": 1.0, "r16": 1.0, "qf": 0.142, "sf": 0.045, "final": 0.006, "champ": 0.001, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.255, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 5.62, "p_w": 1.45, "p_d": 1.28, "p_l": 0.27, "p_gf": 5.21, "p_ga": 2.87, "p_gd": 2.34, "proj_rank": 0, "color": "#C8102E", "wcApps": 3, "prev": "DNQ", "mgr": {"name": "Hossam Hassan", "nat": "Egypt", "yr": "2024"}, "sp": {"pen": "Mohamed Salah", "ck": "Mohamed Salah"}, "form": [{"o": "Senegal", "gf": 0, "ga": 1, "r": "L"}, {"o": "Nigeria", "gf": 0, "ga": 0, "r": "D"}, {"o": "Saudi Arabia", "gf": 4, "ga": 0, "r": "W"}, {"o": "Spain", "gf": 0, "ga": 0, "r": "D"}, {"o": "Russia", "gf": 1, "ga": 0, "r": "W"}, {"o": "Brazil", "gf": 1, "ga": 2, "r": "L"}], "rec": {"W": 5, "D": 3, "L": 2}, "mkt": 0.004}, "Japan": {"group": "F", "flag": "🇯🇵", "fifa": 18, "elo": 1879, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.327, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 5.47, "p_w": 1.4, "p_d": 1.26, "p_l": 0.34, "p_gf": 7.3, "p_ga": 3.16, "p_gd": 4.14, "proj_rank": 1, "color": "#BC002D", "wcApps": 7, "prev": "Round of 16", "mgr": {"name": "Hajime Moriyasu", "nat": "Japan", "yr": "2018"}, "sp": {"pen": "Ayase Ueda", "ck": "Takefusa Kubo"}, "form": [{"o": "Brazil", "gf": 3, "ga": 2, "r": "W"}, {"o": "Ghana", "gf": 2, "ga": 0, "r": "W"}, {"o": "Bolivia", "gf": 3, "ga": 0, "r": "W"}, {"o": "Scotland", "gf": 1, "ga": 0, "r": "W"}, {"o": "England", "gf": 1, "ga": 0, "r": "W"}, {"o": "Iceland", "gf": 1, "ga": 0, "r": "W"}], "rec": {"W": 7, "D": 2, "L": 1}, "mkt": 0.0244}, "Sweden": {"group": "F", "flag": "🇸🇪", "fifa": 38, "elo": 1700, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.665, "g4": 0.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 4.27, "p_w": 1.34, "p_d": 0.26, "p_l": 1.4, "p_gf": 7.16, "p_ga": 7.3, "p_gd": -0.14, "proj_rank": 2, "color": "#FECC00", "wcApps": 12, "prev": "DNQ", "mgr": {"name": "Graham Potter", "nat": "England", "yr": "2025"}, "sp": {"pen": "Viktor Gyökeres", "ck": "Benjamin Nygren"}, "form": [{"o": "Switzerland", "gf": 1, "ga": 4, "r": "L"}, {"o": "Slovenia", "gf": 1, "ga": 1, "r": "D"}, {"o": "Ukraine", "gf": 3, "ga": 1, "r": "W"}, {"o": "Poland", "gf": 3, "ga": 2, "r": "W"}, {"o": "Norway", "gf": 1, "ga": 3, "r": "L"}, {"o": "Greece", "gf": 2, "ga": 2, "r": "D"}], "rec": {"W": 2, "D": 3, "L": 5}, "mkt": 0.0066}, "Senegal": {"group": "I", "flag": "🇸🇳", "fifa": 15, "elo": 1869, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.881, "g4": 0.119, "win_grp": 0.0, "top2": 0.0, "p_pts": 2.48, "p_w": 0.78, "p_d": 0.14, "p_l": 2.08, "p_gf": 5.43, "p_ga": 6.61, "p_gd": -1.18, "proj_rank": 2, "color": "#00853F", "wcApps": 3, "prev": "Round of 16", "mgr": {"name": "Pape Thiaw", "nat": "Senegal", "yr": "2024"}, "sp": {"pen": "Sadio Mane", "ck": "Sadio Mane"}, "form": [{"o": "Egypt", "gf": 1, "ga": 0, "r": "W"}, {"o": "Morocco", "gf": 0, "ga": 3, "r": "L"}, {"o": "Peru", "gf": 2, "ga": 0, "r": "W"}, {"o": "Gambia", "gf": 3, "ga": 1, "r": "W"}, {"o": "USA", "gf": 2, "ga": 3, "r": "L"}, {"o": "Saudi Arabia", "gf": 0, "ga": 0, "r": "D"}], "rec": {"W": 6, "D": 2, "L": 2}, "mkt": 0.0084}, "Algeria": {"group": "J", "flag": "🇩🇿", "fifa": 28, "elo": 1782, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.656, "g4": 0.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 4.32, "p_w": 1.35, "p_d": 0.28, "p_l": 1.38, "p_gf": 3.1, "p_ga": 5.16, "p_gd": -2.06, "proj_rank": 2, "color": "#006633", "wcApps": 4, "prev": "DNQ", "mgr": {"name": "Vladimir Petković", "nat": "Bosnia and Herzegovina", "yr": "2024"}, "sp": {"pen": "Riyad Mahrez", "ck": "Riyad Mahrez"}, "form": [{"o": "DR Congo", "gf": 1, "ga": 0, "r": "W"}, {"o": "Nigeria", "gf": 0, "ga": 2, "r": "L"}, {"o": "Guatemala", "gf": 7, "ga": 0, "r": "W"}, {"o": "Uruguay", "gf": 0, "ga": 0, "r": "D"}, {"o": "Netherlands", "gf": 1, "ga": 0, "r": "W"}, {"o": "Bolivia", "gf": 4, "ga": 0, "r": "W"}], "rec": {"W": 7, "D": 2, "L": 1}, "mkt": 0.0025}, "Canada": {"group": "B", "flag": "🇨🇦", "fifa": 30, "elo": 1695, "qualify": 1.0, "r16": 1.0, "qf": 0.289, "sf": 0.053, "final": 0.014, "champ": 0.004, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.0, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 5.32, "p_w": 1.35, "p_d": 1.26, "p_l": 0.38, "p_gf": 8.19, "p_ga": 2.26, "p_gd": 5.94, "proj_rank": 0, "color": "#FF0000", "wcApps": 3, "prev": "Group Stage", "mgr": {"name": "Jesse Marsch", "nat": "USA", "yr": "2024"}, "sp": {"pen": "Jonathan David", "ck": "Stephen Eustáquio"}, "form": [{"o": "Ecuador", "gf": 0, "ga": 0, "r": "D"}, {"o": "Venezuela", "gf": 2, "ga": 0, "r": "W"}, {"o": "Iceland", "gf": 2, "ga": 2, "r": "D"}, {"o": "Tunisia", "gf": 0, "ga": 0, "r": "D"}, {"o": "Uzbekistan", "gf": 2, "ga": 0, "r": "W"}, {"o": "Republic of Ireland", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 4, "D": 5, "L": 1}, "mkt": 0.0079}, "Ivory Coast": {"group": "E", "flag": "🇨🇮", "fifa": 33, "elo": 1690, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.052, "g4": 0.012, "win_grp": 0.0, "top2": 1.0, "p_pts": 5.57, "p_w": 1.82, "p_d": 0.12, "p_l": 1.06, "p_gf": 4.68, "p_ga": 2.59, "p_gd": 2.09, "proj_rank": 1, "color": "#FF8200", "wcApps": 3, "prev": "DNQ", "mgr": {"name": "Emerse Faé", "nat": "Ivory Coast", "yr": "2024"}, "sp": {"pen": "Franck Kessie", "ck": "Franck Kessie"}, "form": [{"o": "Gabon", "gf": 3, "ga": 2, "r": "W"}, {"o": "Burkina Faso", "gf": 3, "ga": 0, "r": "W"}, {"o": "Egypt", "gf": 2, "ga": 3, "r": "L"}, {"o": "South Korea", "gf": 4, "ga": 0, "r": "W"}, {"o": "Scotland", "gf": 1, "ga": 0, "r": "W"}, {"o": "France", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 7, "D": 1, "L": 2}, "mkt": 0.0099}, "Paraguay": {"group": "D", "flag": "🇵🇾", "fifa": 41, "elo": 1620, "qualify": 1.0, "r16": 1.0, "qf": 0.085, "sf": 0.028, "final": 0.005, "champ": 0.001, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.605, "g4": 0.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 4.53, "p_w": 1.41, "p_d": 0.3, "p_l": 1.29, "p_gf": 3.09, "p_ga": 4.86, "p_gd": -1.77, "proj_rank": 2, "color": "#0038A8", "wcApps": 8, "prev": "DNQ", "mgr": {"name": "Gustavo Alfaro", "nat": "Argentina", "yr": "2024"}, "sp": {"pen": "Julio Enciso", "ck": "Diego Gómez"}, "form": [{"o": "South Korea", "gf": 0, "ga": 2, "r": "L"}, {"o": "USA", "gf": 1, "ga": 2, "r": "L"}, {"o": "Mexico", "gf": 2, "ga": 1, "r": "W"}, {"o": "Greece", "gf": 1, "ga": 0, "r": "W"}, {"o": "Morocco", "gf": 1, "ga": 2, "r": "L"}, {"o": "Nicaragua", "gf": 4, "ga": 0, "r": "W"}], "rec": {"W": 4, "D": 2, "L": 4}, "mkt": 0.0033}, "South Korea": {"group": "A", "flag": "🇰🇷", "fifa": 25, "elo": 1770, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.194, "g4": 0.045, "win_grp": 0.0, "top2": 0.0, "p_pts": 4.83, "p_w": 1.52, "p_d": 0.26, "p_l": 1.22, "p_gf": 3.42, "p_ga": 2.81, "p_gd": 0.61, "proj_rank": 1, "color": "#003478", "wcApps": 11, "prev": "Round of 16", "mgr": {"name": "Hong Myung-bo", "nat": "Korea Republic", "yr": "2024"}, "sp": {"pen": "Son Heung-Min", "ck": "Lee Kang-In"}, "form": [{"o": "Bolivia", "gf": 2, "ga": 0, "r": "W"}, {"o": "Ghana", "gf": 1, "ga": 0, "r": "W"}, {"o": "Ivory Coast", "gf": 0, "ga": 4, "r": "L"}, {"o": "Austria", "gf": 0, "ga": 1, "r": "L"}, {"o": "Trinidad and Tobago", "gf": 5, "ga": 0, "r": "W"}, {"o": "El Salvador", "gf": 1, "ga": 0, "r": "W"}], "rec": {"W": 6, "D": 1, "L": 3}, "mkt": 0.005}, "Czechia": {"group": "A", "flag": "🇨🇿", "fifa": 40, "elo": 1670, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.522, "g4": 0.437, "win_grp": 0.0, "top2": 0.0, "p_pts": 2.06, "p_w": 0.26, "p_d": 1.27, "p_l": 1.46, "p_gf": 2.91, "p_ga": 4.31, "p_gd": -1.4, "proj_rank": 2, "color": "#11457E", "wcApps": 10, "prev": "DNQ", "mgr": {"name": "Miroslav Koubek", "nat": "Czechia", "yr": "2025"}, "sp": {"pen": "Patrik Schick", "ck": "Vladimír Coufal"}, "form": [{"o": "San Marino", "gf": 1, "ga": 0, "r": "W"}, {"o": "Gibraltar", "gf": 6, "ga": 0, "r": "W"}, {"o": "Republic of Ireland", "gf": 2, "ga": 2, "r": "D"}, {"o": "Denmark", "gf": 2, "ga": 2, "r": "D"}, {"o": "Kosovo", "gf": 2, "ga": 1, "r": "W"}, {"o": "Guatemala", "gf": 5, "ga": 1, "r": "W"}], "rec": {"W": 5, "D": 4, "L": 1}, "mkt": 0.0023}, "Iran": {"group": "G", "flag": "🇮🇷", "fifa": 20, "elo": 1797, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.634, "g4": 0.029, "win_grp": 0.0, "top2": 0.0, "p_pts": 3.09, "p_w": 0.27, "p_d": 2.28, "p_l": 0.45, "p_gf": 2.87, "p_ga": 3.21, "p_gd": -0.34, "proj_rank": 2, "color": "#239F40", "wcApps": 6, "prev": "Group Stage", "mgr": {"name": "Amir Ghalenoei", "nat": "Iran", "yr": "2023"}, "sp": {"pen": "Mehdi Taremi", "ck": "Saman Ghoddos"}, "form": [{"o": "Cape Verde", "gf": 0, "ga": 0, "r": "D"}, {"o": "Uzbekistan", "gf": 0, "ga": 0, "r": "D"}, {"o": "Nigeria", "gf": 1, "ga": 2, "r": "L"}, {"o": "Costa Rica", "gf": 5, "ga": 0, "r": "W"}, {"o": "Gambia", "gf": 3, "ga": 1, "r": "W"}, {"o": "Mali", "gf": 2, "ga": 0, "r": "W"}], "rec": {"W": 5, "D": 2, "L": 3}, "mkt": 0.0013}, "Ecuador": {"group": "E", "flag": "🇪🇨", "fifa": 23, "elo": 1933, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.856, "g4": 0.132, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.96, "p_w": 0.24, "p_d": 1.23, "p_l": 1.53, "p_gf": 1.1, "p_ga": 2.73, "p_gd": -1.63, "proj_rank": 2, "color": "#FFD700", "wcApps": 4, "prev": "Group Stage", "mgr": {"name": "Sebastián Beccacece", "nat": "Argentina", "yr": "2024"}, "sp": {"pen": "Enner Valencia", "ck": "Kendry Paez"}, "form": [{"o": "Canada", "gf": 0, "ga": 0, "r": "D"}, {"o": "New Zealand", "gf": 2, "ga": 0, "r": "W"}, {"o": "Morocco", "gf": 1, "ga": 1, "r": "D"}, {"o": "Netherlands", "gf": 1, "ga": 1, "r": "D"}, {"o": "Saudi Arabia", "gf": 2, "ga": 1, "r": "W"}, {"o": "Guatemala", "gf": 3, "ga": 0, "r": "W"}], "rec": {"W": 4, "D": 6, "L": 0}, "mkt": 0.0044}, "Australia": {"group": "D", "flag": "🇦🇺", "fifa": 27, "elo": 1755, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.395, "g4": 0.0, "win_grp": 0.0, "top2": 1.0, "p_pts": 4.17, "p_w": 1.29, "p_d": 0.3, "p_l": 1.41, "p_gf": 2.86, "p_ga": 3.09, "p_gd": -0.23, "proj_rank": 1, "color": "#FFCD00", "wcApps": 6, "prev": "Round of 16", "mgr": {"name": "Tony Popovic", "nat": "Australia", "yr": "2024"}, "sp": {"pen": "Ajdin Hrustic", "ck": "Ajdin Hrustic"}, "form": [{"o": "Venezuela", "gf": 0, "ga": 1, "r": "L"}, {"o": "Colombia", "gf": 0, "ga": 3, "r": "L"}, {"o": "Cameroon", "gf": 1, "ga": 0, "r": "W"}, {"o": "Curacao", "gf": 5, "ga": 1, "r": "W"}, {"o": "Mexico", "gf": 0, "ga": 1, "r": "L"}, {"o": "Switzerland", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 5, "D": 1, "L": 4}, "mkt": 0.0066}, "Scotland": {"group": "C", "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "fifa": 42, "elo": 1640, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.901, "g4": 0.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 3.59, "p_w": 1.13, "p_d": 0.2, "p_l": 1.67, "p_gf": 1.67, "p_ga": 2.88, "p_gd": -1.21, "proj_rank": 2, "color": "#0065BD", "wcApps": 8, "prev": "DNQ", "mgr": {"name": "Steve Clarke", "nat": "Scotland", "yr": "2019"}, "sp": {"pen": "Lawrence Shankland", "ck": "John McGinn"}, "form": [{"o": "Greece", "gf": 2, "ga": 3, "r": "L"}, {"o": "Denmark", "gf": 4, "ga": 2, "r": "W"}, {"o": "Japan", "gf": 0, "ga": 1, "r": "L"}, {"o": "Ivory Coast", "gf": 0, "ga": 1, "r": "L"}, {"o": "Curacao", "gf": 4, "ga": 1, "r": "W"}, {"o": "Bolivia", "gf": 4, "ga": 0, "r": "W"}], "rec": {"W": 6, "D": 1, "L": 3}, "mkt": 0.004}, "Bosnia-Herzegovina": {"group": "B", "flag": "🇧🇦", "fifa": 64, "elo": 1500, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.809, "g4": 0.191, "win_grp": 0.0, "top2": 0.0, "p_pts": 3.11, "p_w": 0.64, "p_d": 1.2, "p_l": 1.16, "p_gf": 3.93, "p_ga": 5.84, "p_gd": -1.91, "proj_rank": 2, "color": "#002395", "wcApps": 1, "prev": "DNQ", "mgr": {"name": "Sergej Barbarez", "nat": "Bosnia", "yr": "2024"}, "sp": {"pen": "Edin Džeko", "ck": "Esmir Bajraktarević"}, "form": [{"o": "Romania", "gf": 3, "ga": 1, "r": "W"}, {"o": "Austria", "gf": 1, "ga": 1, "r": "D"}, {"o": "Wales", "gf": 1, "ga": 1, "r": "D"}, {"o": "Italy", "gf": 1, "ga": 1, "r": "D"}, {"o": "North Macedonia", "gf": 0, "ga": 0, "r": "D"}, {"o": "Panama", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 3, "D": 6, "L": 1}, "mkt": 0.0018}, "Congo": {"group": "K", "flag": "🇨🇩", "fifa": 46, "elo": 1560, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.473, "g4": 0.3, "win_grp": 0.0, "top2": 0.0, "p_pts": 3.45, "p_w": 0.64, "p_d": 1.52, "p_l": 0.83, "p_gf": 3.11, "p_ga": 3.49, "p_gd": -0.39, "proj_rank": 2, "color": "#007FFF", "wcApps": 1, "prev": "DNQ", "mgr": {"name": "Sébastien Desabre", "nat": "France", "yr": "2022"}, "sp": {"pen": "Yoane Wissa", "ck": "Arthur Masuaku"}, "form": [{"o": "Botswana", "gf": 3, "ga": 0, "r": "W"}, {"o": "Algeria", "gf": 0, "ga": 1, "r": "L"}, {"o": "Bermuda", "gf": 2, "ga": 0, "r": "W"}, {"o": "Jamaica", "gf": 1, "ga": 0, "r": "W"}, {"o": "Denmark", "gf": 0, "ga": 0, "r": "D"}, {"o": "Chile", "gf": 1, "ga": 2, "r": "L"}], "rec": {"W": 5, "D": 3, "L": 2}, "mkt": 0.0013}, "Ghana": {"group": "L", "flag": "🇬🇭", "fifa": 73, "elo": 1525, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 1.0, "g1": 0.0, "g2": 0.0, "g3": 0.638, "g4": 0.05, "win_grp": 0.0, "top2": 0.0, "p_pts": 4.4, "p_w": 1.33, "p_d": 0.42, "p_l": 1.25, "p_gf": 2.54, "p_ga": 3.72, "p_gd": -1.18, "proj_rank": 2, "color": "#FCD116", "wcApps": 4, "prev": "Group Stage", "mgr": {"name": "Carlos Queiroz replaced Otto Addo*", "nat": "Portugal", "yr": "2026"}, "sp": {"pen": "Jordan Ayew", "ck": "Jordan Ayew"}, "form": [{"o": "Japan", "gf": 0, "ga": 2, "r": "L"}, {"o": "South Korea", "gf": 0, "ga": 1, "r": "L"}, {"o": "Austria", "gf": 1, "ga": 5, "r": "L"}, {"o": "Germany", "gf": 1, "ga": 2, "r": "L"}, {"o": "Mexico", "gf": 0, "ga": 2, "r": "L"}, {"o": "Wales", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 3, "D": 2, "L": 5}, "mkt": 0.002}, "Cape Verde": {"group": "H", "flag": "🇨🇻", "fifa": 67, "elo": 1505, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.209, "g4": 0.22, "win_grp": 0.0, "top2": 1.0, "p_pts": 3.47, "p_w": 0.4, "p_d": 2.26, "p_l": 0.34, "p_gf": 3.34, "p_ga": 3.2, "p_gd": 0.14, "proj_rank": 1, "color": "#003893", "wcApps": 0, "prev": "Debut", "mgr": {"name": "Bubista", "nat": "Cape Verde", "yr": "2020"}, "sp": {"pen": "Ryan Mendes", "ck": "Jamiro Monteiro"}, "form": [{"o": "Iran", "gf": 0, "ga": 0, "r": "D"}, {"o": "Egypt", "gf": 1, "ga": 1, "r": "D"}, {"o": "Chile", "gf": 2, "ga": 4, "r": "L"}, {"o": "Finland", "gf": 1, "ga": 1, "r": "D"}, {"o": "Serbia", "gf": 3, "ga": 0, "r": "W"}, {"o": "Bermuda", "gf": 0, "ga": 3, "r": "L"}], "rec": {"W": 4, "D": 4, "L": 2}, "mkt": 0.0007}, "Curacao": {"group": "E", "flag": "🇨🇼", "fifa": 82, "elo": 1380, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.093, "g4": 0.856, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.3, "p_w": 0.06, "p_d": 1.12, "p_l": 1.82, "p_gf": 1.59, "p_ga": 9.68, "p_gd": -8.09, "proj_rank": 3, "color": "#002B7F", "wcApps": 0, "prev": "Debut", "mgr": {"name": "Dick Advocaat", "nat": "Netherlands", "yr": "2026"}, "sp": {"pen": "Leandro Bacuna", "ck": "Leandro Bacuna"}, "form": [{"o": "Bermuda", "gf": 7, "ga": 0, "r": "W"}, {"o": "Jamaica", "gf": 0, "ga": 0, "r": "D"}, {"o": "China", "gf": 0, "ga": 2, "r": "L"}, {"o": "Australia", "gf": 1, "ga": 5, "r": "L"}, {"o": "Scotland", "gf": 1, "ga": 4, "r": "L"}, {"o": "Aruba", "gf": 4, "ga": 0, "r": "W"}], "rec": {"W": 4, "D": 3, "L": 3}, "mkt": 0.0004}, "Haiti": {"group": "C", "flag": "🇭🇹", "fifa": 83, "elo": 1450, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.0, "g4": 1.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 0.44, "p_w": 0.09, "p_d": 0.16, "p_l": 2.74, "p_gf": 0.63, "p_ga": 6.23, "p_gd": -5.6, "proj_rank": 3, "color": "#00209F", "wcApps": 1, "prev": "DNQ", "mgr": {"name": "Sébastien Migné", "nat": "France", "yr": "2024"}, "sp": {"pen": "Duckens Nazon", "ck": "Derrick Etienne Jr."}, "form": [{"o": "Costa Rica", "gf": 1, "ga": 0, "r": "W"}, {"o": "Nicaragua", "gf": 2, "ga": 0, "r": "W"}, {"o": "Tunisia", "gf": 0, "ga": 1, "r": "L"}, {"o": "Iceland", "gf": 1, "ga": 1, "r": "D"}, {"o": "New Zealand", "gf": 4, "ga": 0, "r": "W"}, {"o": "Peru", "gf": 1, "ga": 2, "r": "L"}], "rec": {"W": 4, "D": 3, "L": 3}}, "Iraq": {"group": "I", "flag": "🇮🇶", "fifa": 57, "elo": 1530, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.119, "g4": 0.881, "win_grp": 0.0, "top2": 0.0, "p_pts": 0.37, "p_w": 0.08, "p_d": 0.14, "p_l": 2.78, "p_gf": 1.61, "p_ga": 9.43, "p_gd": -7.82, "proj_rank": 3, "color": "#CE1126", "wcApps": 1, "prev": "DNQ", "mgr": {"name": "Graham Arnold", "nat": "Australia", "yr": "2025"}, "sp": {"pen": "Amir Al-Ammari", "ck": "Amir Al-Ammari"}, "form": [{"o": "Algeria", "gf": 0, "ga": 2, "r": "L"}, {"o": "Jordan", "gf": 0, "ga": 1, "r": "L"}, {"o": "Bolivia", "gf": 2, "ga": 1, "r": "W"}, {"o": "Andorra", "gf": 1, "ga": 0, "r": "W"}, {"o": "Spain", "gf": 1, "ga": 1, "r": "D"}, {"o": "Venezuela", "gf": 0, "ga": 2, "r": "L"}], "rec": {"W": 5, "D": 2, "L": 3}, "mkt": 0.0005}, "Jordan": {"group": "J", "flag": "🇯🇴", "fifa": 63, "elo": 1500, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.0, "g4": 1.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 0.27, "p_w": 0.05, "p_d": 0.12, "p_l": 2.83, "p_gf": 2.47, "p_ga": 7.55, "p_gd": -5.08, "proj_rank": 3, "color": "#007A3D", "wcApps": 0, "prev": "Debut", "mgr": {"name": "Jamal Sellami", "nat": "Morocco", "yr": "2024"}, "sp": {"pen": "Ali Olwan", "ck": "Musa Al-Taamari"}, "form": [{"o": "Saudi Arabia", "gf": 1, "ga": 0, "r": "W"}, {"o": "Morocco", "gf": 2, "ga": 3, "r": "L"}, {"o": "Costa Rica", "gf": 2, "ga": 2, "r": "D"}, {"o": "Nigeria", "gf": 2, "ga": 2, "r": "D"}, {"o": "Switzerland", "gf": 1, "ga": 4, "r": "L"}, {"o": "Colombia", "gf": 0, "ga": 2, "r": "L"}], "rec": {"W": 5, "D": 2, "L": 3}}, "New Zealand": {"group": "G", "flag": "🇳🇿", "fifa": 85, "elo": 1465, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.036, "g4": 0.929, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.38, "p_w": 0.08, "p_d": 1.15, "p_l": 1.77, "p_gf": 3.57, "p_ga": 7.32, "p_gd": -3.74, "proj_rank": 3, "color": "#000000", "wcApps": 2, "prev": "DNQ", "mgr": {"name": "Darren Bazeley", "nat": "UK (born in Northampton)", "yr": "2023"}, "sp": {"pen": "Chris Wood", "ck": "Sarpreet Singh"}, "form": [{"o": "Colombia", "gf": 1, "ga": 2, "r": "L"}, {"o": "Ecuador", "gf": 0, "ga": 2, "r": "L"}, {"o": "Finland", "gf": 0, "ga": 2, "r": "L"}, {"o": "Chile", "gf": 4, "ga": 1, "r": "W"}, {"o": "Haiti", "gf": 0, "ga": 4, "r": "L"}, {"o": "England", "gf": 0, "ga": 1, "r": "L"}], "rec": {"W": 1, "D": 1, "L": 8}, "mkt": 0.0007}, "Panama": {"group": "L", "flag": "🇵🇦", "fifa": 34, "elo": 1620, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.115, "g4": 0.853, "win_grp": 0.0, "top2": 0.0, "p_pts": 0.87, "p_w": 0.18, "p_d": 0.32, "p_l": 2.5, "p_gf": 1.17, "p_ga": 5.52, "p_gd": -4.34, "proj_rank": 3, "color": "#005AA7", "wcApps": 1, "prev": "DNQ", "mgr": {"name": "Thomas Christiansen", "nat": "Spain/Denmark (born in Hadsund)", "yr": "2020"}, "sp": {"pen": "Eric Davis", "ck": "Adalberto Carrasquilla"}, "form": [{"o": "Mexico", "gf": 0, "ga": 1, "r": "L"}, {"o": "South Africa", "gf": 1, "ga": 1, "r": "D"}, {"o": "South Africa", "gf": 2, "ga": 1, "r": "W"}, {"o": "Brazil", "gf": 2, "ga": 6, "r": "L"}, {"o": "Dominican Republic", "gf": 4, "ga": 2, "r": "W"}, {"o": "Bosnia and Herzegovina", "gf": 1, "ga": 1, "r": "D"}], "rec": {"W": 4, "D": 4, "L": 2}, "mkt": 0.0005}, "Qatar": {"group": "B", "flag": "🇶🇦", "fifa": 56, "elo": 1570, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.191, "g4": 0.809, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.69, "p_w": 0.16, "p_d": 1.2, "p_l": 1.64, "p_gf": 1.84, "p_ga": 8.93, "p_gd": -7.09, "proj_rank": 3, "color": "#8D1B3D", "wcApps": 2, "prev": "Group Stage", "mgr": {"name": "Julen Lopetegui", "nat": "Spain", "yr": "2025"}, "sp": {"pen": "Akram Afif", "ck": "Akram Afif"}, "form": [{"o": "Zimbabwe", "gf": 1, "ga": 2, "r": "L"}, {"o": "Palestine", "gf": 0, "ga": 1, "r": "L"}, {"o": "Syria", "gf": 1, "ga": 1, "r": "D"}, {"o": "Tunisia", "gf": 0, "ga": 3, "r": "L"}, {"o": "Republic of Ireland", "gf": 0, "ga": 1, "r": "L"}, {"o": "El Salvador", "gf": 0, "ga": 0, "r": "D"}], "rec": {"W": 1, "D": 4, "L": 5}, "mkt": 0.0004}, "Saudi Arabia": {"group": "H", "flag": "🇸🇦", "fifa": 61, "elo": 1575, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.054, "g4": 0.653, "win_grp": 0.0, "top2": 0.0, "p_pts": 2.28, "p_w": 0.34, "p_d": 1.26, "p_l": 1.4, "p_gf": 2.2, "p_ga": 6.34, "p_gd": -4.14, "proj_rank": 3, "color": "#006C35", "wcApps": 6, "prev": "Group Stage", "mgr": {"name": "*Georgios Donis", "nat": "Greece", "yr": "2026"}, "sp": {"pen": "Firas Al-Buraikan", "ck": "Salem Al-Dawsari"}, "form": [{"o": "Jordan", "gf": 0, "ga": 1, "r": "L"}, {"o": "Egypt", "gf": 0, "ga": 4, "r": "L"}, {"o": "Serbia", "gf": 1, "ga": 2, "r": "L"}, {"o": "Ecuador", "gf": 1, "ga": 2, "r": "L"}, {"o": "Puerto Rico", "gf": 3, "ga": 0, "r": "W"}, {"o": "Senegal", "gf": 0, "ga": 0, "r": "D"}], "rec": {"W": 4, "D": 1, "L": 5}, "mkt": 0.0013}, "South Africa": {"group": "A", "flag": "🇿🇦", "fifa": 60, "elo": 1545, "qualify": 1.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 1.0, "g3": 0.283, "g4": 0.518, "win_grp": 0.0, "top2": 1.0, "p_pts": 1.91, "p_w": 0.22, "p_d": 1.26, "p_l": 1.52, "p_gf": 1.81, "p_ga": 4.42, "p_gd": -2.61, "proj_rank": 3, "color": "#007749", "wcApps": 3, "prev": "DNQ", "mgr": {"name": "Hugo Broos", "nat": "Belgium", "yr": "2021"}, "sp": {"pen": "Teboho Mokoena", "ck": "Teboho Mokoena"}, "form": [{"o": "Zimbabwe", "gf": 3, "ga": 2, "r": "W"}, {"o": "Cameroon", "gf": 1, "ga": 2, "r": "L"}, {"o": "Panama", "gf": 1, "ga": 1, "r": "D"}, {"o": "Panama", "gf": 1, "ga": 2, "r": "L"}, {"o": "Nicaragua", "gf": 0, "ga": 0, "r": "D"}, {"o": "Jamaica", "gf": 1, "ga": 0, "r": "W"}], "rec": {"W": 5, "D": 2, "L": 3}, "mkt": 0.0006}, "Tunisia": {"group": "F", "flag": "🇹🇳", "fifa": 45, "elo": 1715, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.0, "g4": 1.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 0.35, "p_w": 0.07, "p_d": 0.14, "p_l": 2.79, "p_gf": 1.52, "p_ga": 11.35, "p_gd": -9.83, "proj_rank": 3, "color": "#E70013", "wcApps": 6, "prev": "Group Stage", "mgr": {"name": "Sabri Lamouchi", "nat": "France/Tunisia (born in Lyon)", "yr": "2026"}, "sp": {"pen": "Ali Abdi", "ck": "Ali Abdi"}, "form": [{"o": "Tanzania", "gf": 1, "ga": 1, "r": "D"}, {"o": "Mali", "gf": 1, "ga": 1, "r": "D"}, {"o": "Haiti", "gf": 1, "ga": 0, "r": "W"}, {"o": "Canada", "gf": 0, "ga": 0, "r": "D"}, {"o": "Austria", "gf": 0, "ga": 1, "r": "L"}, {"o": "Belgium", "gf": 0, "ga": 5, "r": "L"}], "rec": {"W": 3, "D": 4, "L": 3}}, "Turkey": {"group": "D", "flag": "🇹🇷", "fifa": 22, "elo": 1880, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.0, "g4": 1.0, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.12, "p_w": 0.29, "p_d": 0.26, "p_l": 2.46, "p_gf": 1.06, "p_ga": 4.41, "p_gd": -3.36, "proj_rank": 3, "color": "#E30A17", "wcApps": 2, "prev": "DNQ", "mgr": {"name": "Vincenzo Montella", "nat": "Italy", "yr": "2023"}, "sp": {"pen": "Hakan Çalhanoğlu", "ck": "Hakan Çalhanoğlu"}, "form": [{"o": "Bulgaria", "gf": 2, "ga": 0, "r": "W"}, {"o": "Spain", "gf": 2, "ga": 2, "r": "D"}, {"o": "Romania", "gf": 1, "ga": 0, "r": "W"}, {"o": "Kosovo", "gf": 1, "ga": 0, "r": "W"}, {"o": "North Macedonia", "gf": 4, "ga": 0, "r": "W"}, {"o": "Venezuela", "gf": 2, "ga": 1, "r": "W"}], "rec": {"W": 8, "D": 1, "L": 1}}, "Uzbekistan": {"group": "K", "flag": "🇺🇿", "fifa": 50, "elo": 1520, "qualify": 0.0, "r16": 0.0, "qf": 0.0, "sf": 0.0, "final": 0.0, "champ": 0.0, "adv3": 0.0, "g1": 0.0, "g2": 0.0, "g3": 0.271, "g4": 0.66, "win_grp": 0.0, "top2": 0.0, "p_pts": 1.49, "p_w": 0.36, "p_d": 0.4, "p_l": 2.23, "p_gf": 2.59, "p_ga": 6.77, "p_gd": -4.18, "proj_rank": 3, "color": "#0099B5", "wcApps": 0, "prev": "Debut", "mgr": {"name": "Fabio Cannavaro", "nat": "Italy", "yr": "2025"}, "sp": {"pen": "Eldor Shomurodov", "ck": "Jaloliddin Masharipov"}, "form": [{"o": "Iran", "gf": 0, "ga": 0, "r": "D"}, {"o": "China", "gf": 2, "ga": 2, "r": "D"}, {"o": "Gabon", "gf": 3, "ga": 1, "r": "W"}, {"o": "Venezuela", "gf": 0, "ga": 0, "r": "D"}, {"o": "Canada", "gf": 0, "ga": 2, "r": "L"}, {"o": "Netherlands", "gf": 1, "ga": 2, "r": "L"}], "rec": {"W": 4, "D": 3, "L": 3}, "mkt": 0.0004}}, "GROUPS": {"H": ["Spain", "Cape Verde", "Uruguay", "Saudi Arabia"], "J": ["Argentina", "Austria", "Algeria", "Jordan"], "I": ["France", "Norway", "Senegal", "Iraq"], "C": ["Brazil", "Morocco", "Scotland", "Haiti"], "L": ["England", "Croatia", "Ghana", "Panama"], "K": ["Colombia", "Portugal", "Congo", "Uzbekistan"], "E": ["Germany", "Ivory Coast", "Ecuador", "Curacao"], "F": ["Netherlands", "Japan", "Sweden", "Tunisia"], "G": ["Egypt", "Belgium", "Iran", "New Zealand"], "D": ["United States", "Australia", "Paraguay", "Turkey"], "A": ["Mexico", "South Korea", "Czechia", "South Africa"], "B": ["Canada", "Switzerland", "Bosnia-Herzegovina", "Qatar"]}, "BRACKET": {"R32": [{"m": 73, "a": "R-A", "b": "R-B", "venue": "Los Angeles", "date": "Jun 28"}, {"m": 74, "a": "W-E", "b": "T-ABCDF", "venue": "Boston", "date": "Jun 29"}, {"m": 75, "a": "W-F", "b": "R-C", "venue": "Guadalajara", "date": "Jun 30"}, {"m": 76, "a": "W-C", "b": "R-F", "venue": "Houston", "date": "Jun 29"}, {"m": 77, "a": "W-I", "b": "T-CDFGH", "venue": "New York/New Jersey", "date": "Jun 30"}, {"m": 78, "a": "R-E", "b": "R-I", "venue": "Dallas", "date": "Jun 30"}, {"m": 79, "a": "W-A", "b": "T-CEFHI", "venue": "Mexico City", "date": "Jul 1"}, {"m": 80, "a": "W-L", "b": "T-EHIJK", "venue": "Atlanta", "date": "Jul 1"}, {"m": 81, "a": "W-D", "b": "T-BEFIJ", "venue": "San Francisco", "date": "Jul 2"}, {"m": 82, "a": "W-G", "b": "T-AEHIJ", "venue": "Seattle", "date": "Jul 2"}, {"m": 83, "a": "R-K", "b": "R-L", "venue": "Toronto", "date": "Jul 2"}, {"m": 84, "a": "W-H", "b": "R-J", "venue": "Los Angeles", "date": "Jul 2"}, {"m": 85, "a": "W-B", "b": "T-EFGIJ", "venue": "Vancouver", "date": "Jul 2"}, {"m": 86, "a": "W-J", "b": "R-H", "venue": "Miami", "date": "Jul 3"}, {"m": 87, "a": "W-K", "b": "T-DEIJL", "venue": "Kansas City", "date": "Jul 3"}, {"m": 88, "a": "R-D", "b": "R-G", "venue": "Dallas", "date": "Jul 3"}], "R16": [{"m": 89, "a": 74, "b": 77, "venue": "Philadelphia", "date": "Jul 4"}, {"m": 90, "a": 73, "b": 75, "venue": "Houston", "date": "Jul 4"}, {"m": 91, "a": 76, "b": 78, "venue": "New York/New Jersey", "date": "Jul 5"}, {"m": 92, "a": 79, "b": 80, "venue": "Mexico City", "date": "Jul 5"}, {"m": 93, "a": 83, "b": 84, "venue": "Dallas", "date": "Jul 6"}, {"m": 94, "a": 81, "b": 82, "venue": "Seattle", "date": "Jul 6"}, {"m": 95, "a": 86, "b": 88, "venue": "Atlanta", "date": "Jul 7"}, {"m": 96, "a": 85, "b": 87, "venue": "Vancouver", "date": "Jul 7"}], "QF": [{"m": 97, "a": 89, "b": 90, "venue": "Boston", "date": "Jul 9"}, {"m": 98, "a": 93, "b": 94, "venue": "Los Angeles", "date": "Jul 10"}, {"m": 99, "a": 91, "b": 92, "venue": "Miami", "date": "Jul 11"}, {"m": 100, "a": 95, "b": 96, "venue": "Kansas City", "date": "Jul 11"}], "SF": [{"m": 101, "a": 97, "b": 98, "venue": "Dallas", "date": "Jul 14"}, {"m": 102, "a": 99, "b": 100, "venue": "Atlanta", "date": "Jul 15"}], "FINAL": {"m": 104, "a": 101, "b": 102, "venue": "New York/New Jersey", "date": "Jul 19"}, "THIRD": {"m": 103, "a": 101, "b": 102, "venue": "Miami", "date": "Jul 18", "loser": true}}, "updated": "BETSIE Projections (live) · Jul 4, 2026 · tool: managers, form, set pieces, market", "src": {"probs": "BETSIE projections", "table": "BETSiE GROUP PROJECTIONS", "rating": "tool TEAM_META (FIFA Jun 11 / Elo Jan 19)", "structure": "FIFA official"}, "updated_label": "7/4", "prob_source": "BETSIE", "prob_source_long": "BETSIE projections", "STANDINGS": {"A": [{"team": "Mexico", "flag": "🇲🇽", "p": 3, "w": 3, "d": 0, "l": 0, "gf": 6, "ga": 0, "gd": 6, "pts": 9, "q": true}, {"team": "South Africa", "flag": "🇿🇦", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 2, "ga": 3, "gd": -1, "pts": 4, "q": true}, {"team": "South Korea", "flag": "🇰🇷", "p": 3, "w": 1, "d": 0, "l": 2, "gf": 2, "ga": 3, "gd": -1, "pts": 3, "q": false}, {"team": "Czechia", "flag": "🇨🇿", "p": 3, "w": 0, "d": 1, "l": 2, "gf": 2, "ga": 6, "gd": -4, "pts": 1, "q": false}], "B": [{"team": "Switzerland", "flag": "🇨🇭", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 7, "ga": 3, "gd": 4, "pts": 7, "q": true}, {"team": "Canada", "flag": "🇨🇦", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 8, "ga": 3, "gd": 5, "pts": 4, "q": true}, {"team": "Bosnia-Herzegovina", "flag": "🇧🇦", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 5, "ga": 6, "gd": -1, "pts": 4, "q": true}, {"team": "Qatar", "flag": "🇶🇦", "p": 3, "w": 0, "d": 1, "l": 2, "gf": 2, "ga": 10, "gd": -8, "pts": 1, "q": false}], "C": [{"team": "Brazil", "flag": "🇧🇷", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 7, "ga": 1, "gd": 6, "pts": 7, "q": true}, {"team": "Morocco", "flag": "🇲🇦", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 6, "ga": 3, "gd": 3, "pts": 7, "q": true}, {"team": "Scotland", "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "p": 3, "w": 1, "d": 0, "l": 2, "gf": 1, "ga": 4, "gd": -3, "pts": 3, "q": false}, {"team": "Haiti", "flag": "🇭🇹", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 2, "ga": 8, "gd": -6, "pts": 0, "q": false}], "D": [{"team": "United States", "flag": "🇺🇸", "p": 3, "w": 2, "d": 0, "l": 1, "gf": 8, "ga": 4, "gd": 4, "pts": 6, "q": true}, {"team": "Australia", "flag": "🇦🇺", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 2, "ga": 2, "gd": 0, "pts": 4, "q": true}, {"team": "Paraguay", "flag": "🇵🇾", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 2, "ga": 4, "gd": -2, "pts": 4, "q": true}, {"team": "Turkey", "flag": "🇹🇷", "p": 3, "w": 1, "d": 0, "l": 2, "gf": 3, "ga": 5, "gd": -2, "pts": 3, "q": false}], "E": [{"team": "Germany", "flag": "🇩🇪", "p": 3, "w": 2, "d": 0, "l": 1, "gf": 10, "ga": 4, "gd": 6, "pts": 6, "q": true}, {"team": "Ivory Coast", "flag": "🇨🇮", "p": 3, "w": 2, "d": 0, "l": 1, "gf": 4, "ga": 2, "gd": 2, "pts": 6, "q": true}, {"team": "Ecuador", "flag": "🇪🇨", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 2, "ga": 2, "gd": 0, "pts": 4, "q": true}, {"team": "Curacao", "flag": "🇨🇼", "p": 3, "w": 0, "d": 1, "l": 2, "gf": 1, "ga": 9, "gd": -8, "pts": 1, "q": false}], "F": [{"team": "Netherlands", "flag": "🇳🇱", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 10, "ga": 4, "gd": 6, "pts": 7, "q": true}, {"team": "Japan", "flag": "🇯🇵", "p": 3, "w": 1, "d": 2, "l": 0, "gf": 7, "ga": 3, "gd": 4, "pts": 5, "q": true}, {"team": "Sweden", "flag": "🇸🇪", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 7, "ga": 7, "gd": 0, "pts": 4, "q": true}, {"team": "Tunisia", "flag": "🇹🇳", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 2, "ga": 12, "gd": -10, "pts": 0, "q": false}], "G": [{"team": "Belgium", "flag": "🇧🇪", "p": 3, "w": 1, "d": 2, "l": 0, "gf": 6, "ga": 2, "gd": 4, "pts": 5, "q": true}, {"team": "Egypt", "flag": "🇪🇬", "p": 3, "w": 1, "d": 2, "l": 0, "gf": 5, "ga": 3, "gd": 2, "pts": 5, "q": true}, {"team": "Iran", "flag": "🇮🇷", "p": 3, "w": 0, "d": 3, "l": 0, "gf": 3, "ga": 3, "gd": 0, "pts": 3, "q": false}, {"team": "New Zealand", "flag": "🇳🇿", "p": 3, "w": 0, "d": 1, "l": 2, "gf": 4, "ga": 10, "gd": -6, "pts": 1, "q": false}], "H": [{"team": "Spain", "flag": "🇪🇸", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 5, "ga": 0, "gd": 5, "pts": 7, "q": true}, {"team": "Cape Verde", "flag": "🇨🇻", "p": 3, "w": 0, "d": 3, "l": 0, "gf": 2, "ga": 2, "gd": 0, "pts": 3, "q": true}, {"team": "Uruguay", "flag": "🇺🇾", "p": 3, "w": 0, "d": 2, "l": 1, "gf": 3, "ga": 4, "gd": -1, "pts": 2, "q": false}, {"team": "Saudi Arabia", "flag": "🇸🇦", "p": 3, "w": 0, "d": 2, "l": 1, "gf": 1, "ga": 5, "gd": -4, "pts": 2, "q": false}], "I": [{"team": "France", "flag": "🇫🇷", "p": 3, "w": 3, "d": 0, "l": 0, "gf": 10, "ga": 2, "gd": 8, "pts": 9, "q": true}, {"team": "Norway", "flag": "🇳🇴", "p": 3, "w": 2, "d": 0, "l": 1, "gf": 8, "ga": 7, "gd": 1, "pts": 6, "q": true}, {"team": "Senegal", "flag": "🇸🇳", "p": 3, "w": 1, "d": 0, "l": 2, "gf": 8, "ga": 6, "gd": 2, "pts": 3, "q": true}, {"team": "Iraq", "flag": "🇮🇶", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 1, "ga": 12, "gd": -11, "pts": 0, "q": false}], "J": [{"team": "Argentina", "flag": "🇦🇷", "p": 3, "w": 3, "d": 0, "l": 0, "gf": 8, "ga": 1, "gd": 7, "pts": 9, "q": true}, {"team": "Austria", "flag": "🇦🇹", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 6, "ga": 6, "gd": 0, "pts": 4, "q": true}, {"team": "Algeria", "flag": "🇩🇿", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 5, "ga": 7, "gd": -2, "pts": 4, "q": true}, {"team": "Jordan", "flag": "🇯🇴", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 3, "ga": 8, "gd": -5, "pts": 0, "q": false}], "K": [{"team": "Colombia", "flag": "🇨🇴", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 4, "ga": 1, "gd": 3, "pts": 7, "q": true}, {"team": "Portugal", "flag": "🇵🇹", "p": 3, "w": 1, "d": 2, "l": 0, "gf": 6, "ga": 1, "gd": 5, "pts": 5, "q": true}, {"team": "Congo", "flag": "🇨🇩", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 4, "ga": 3, "gd": 1, "pts": 4, "q": true}, {"team": "Uzbekistan", "flag": "🇺🇿", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 2, "ga": 11, "gd": -9, "pts": 0, "q": false}], "L": [{"team": "England", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "p": 3, "w": 2, "d": 1, "l": 0, "gf": 6, "ga": 2, "gd": 4, "pts": 7, "q": true}, {"team": "Croatia", "flag": "🇭🇷", "p": 3, "w": 2, "d": 0, "l": 1, "gf": 5, "ga": 5, "gd": 0, "pts": 6, "q": true}, {"team": "Ghana", "flag": "🇬🇭", "p": 3, "w": 1, "d": 1, "l": 1, "gf": 2, "ga": 2, "gd": 0, "pts": 4, "q": true}, {"team": "Panama", "flag": "🇵🇦", "p": 3, "w": 0, "d": 0, "l": 3, "gf": 0, "ga": 4, "gd": -4, "pts": 0, "q": false}]}, "CONFIRMED": {"W-A": "Mexico", "R-A": "South Africa", "W-B": "Switzerland", "R-B": "Canada", "W-C": "Brazil", "R-C": "Morocco", "W-D": "United States", "R-D": "Australia", "W-E": "Germany", "R-E": "Ivory Coast", "W-F": "Netherlands", "R-F": "Japan", "W-G": "Belgium", "R-G": "Egypt", "W-H": "Spain", "R-H": "Cape Verde", "W-I": "France", "R-I": "Norway", "W-J": "Argentina", "R-J": "Austria", "W-K": "Colombia", "R-K": "Portugal", "W-L": "England", "R-L": "Croatia", "T-BEFIJ": "Bosnia-Herzegovina", "T-ABCDF": "Paraguay", "T-CDFGH": "Sweden", "T-CEFHI": "Ecuador", "T-DEIJL": "Ghana", "T-EHIJK": "Congo", "T-AEHIJ": "Senegal", "T-EFGIJ": "Algeria"}, "WINNERS": {"73": "Canada", "74": "Paraguay", "75": "Morocco", "76": "Brazil", "77": "France", "78": "Norway", "79": "Mexico", "80": "England", "81": "United States", "82": "Belgium", "83": "Portugal", "84": "Spain", "85": "Switzerland", "86": "Argentina", "87": "Colombia", "88": "Egypt"}};
+</script>
+<script>
+/* ---------- state ---------- */
+const SLOTS = {};           // matchNo -> {a:team|null, b:team|null, winner:'a'|'b'|null}
+const ALL_MATCHES = {};     // matchNo -> match def + round
+const ROUNDS = [["R32","Round of 32",WC.BRACKET.R32],["R16","Round of 16",WC.BRACKET.R16],
+                ["QF","Quarter-finals",WC.BRACKET.QF],["SF","Semi-finals",WC.BRACKET.SF]];
+WC.BRACKET.R32.forEach(m=>ALL_MATCHES[m.m]={...m,round:"R32"});
+WC.BRACKET.R16.forEach(m=>ALL_MATCHES[m.m]={...m,round:"R16"});
+WC.BRACKET.QF.forEach(m=>ALL_MATCHES[m.m]={...m,round:"QF"});
+WC.BRACKET.SF.forEach(m=>ALL_MATCHES[m.m]={...m,round:"SF"});
+ALL_MATCHES[104]={...WC.BRACKET.FINAL,round:"FINAL"};
+ALL_MATCHES[103]={...WC.BRACKET.THIRD,round:"THIRD"};
+Object.keys(ALL_MATCHES).forEach(n=>SLOTS[n]={a:null,b:null,winner:null});
+
+const _mo={Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+const SRC = WC.prob_source || "Nick Giffen";
+const SRC_LONG = WC.prob_source_long || "Giffen Tournament Sims";
+const IS_GIFFEN = (SRC === "Nick Giffen");
+const SRC_SUFFIX = IS_GIFFEN ? " · Giffen" : "";                       // for sectitles
+const SRC_LONG_SHOW = IS_GIFFEN ? "Giffen Tournament Sims" : "Action Network model";  // for provenance
+(function(){const el=document.getElementById('srcLabel');if(el)el.textContent = (SRC==="Nick Giffen") ? "· via Nick Giffen & others" : "";})();
+const _md=(WC.updated||'').match(/([A-Z][a-z]{2}) (\d{1,2}), (\d{4})/);
+document.getElementById('lastUpdated').textContent = WC.updated_label || (_md ? (_mo[_md[1]]+'/'+_md[2]) : '—');
+
+/* ---------- persistence ---------- */
+const LSKEY='wc2026_bracket_v1';
+function save(){try{localStorage.setItem(LSKEY,JSON.stringify(SLOTS));}catch(e){}}
+function load(){try{const r=localStorage.getItem(LSKEY);if(r){const s=JSON.parse(r);
+  for(const k in s) if(SLOTS[k]) SLOTS[k]=s[k];}}catch(e){}}
+
+/* ---------- helpers ---------- */
+const GRPNAME={W:"Winner",R:"Runner-up"};
+function slotLabel(code){
+  if(code[0]==="W") return "Winner "+code.slice(2);
+  if(code[0]==="R") return "Runner-up "+code.slice(2);
+  if(code[0]==="T") return "3rd "+code.slice(2).split("").join("/");
+  return code;
+}
+function eligibleTeams(code){
+  if(code[0]==="W"||code[0]==="R") return WC.GROUPS[code.slice(2)]||[];
+  if(code[0]==="T"){const gs=code.slice(2).split("");let out=[];gs.forEach(g=>out=out.concat(WC.GROUPS[g]||[]));return out;}
+  return [];
+}
+// resolve the two participants of a match (team names or null) given current state
+function participant(matchNo,side){
+  const m=ALL_MATCHES[matchNo];const ref=m[side];
+  if(typeof ref==="string"){ // R32 slot code
+    return {team:SLOTS[matchNo][side], code:ref, kind:"slot"};
+  } else { // feeder match number
+    const feeder=SLOTS[ref];
+    let team=null;
+    if(feeder&&feeder.winner){ team = m.loser ? null : (feeder.winner==="a"?feeder.aTeamResolved:feeder.bTeamResolved); }
+    if(m.loser && feeder && feeder.winner){ team = feeder.winner==="a"?feeder.bTeamResolved:feeder.aTeamResolved; }
+    return {team, code:(m.loser?"Loser ":"Winner ")+ref, kind:"feeder", feeder:ref};
+  }
+}
+function pct(x){return x==null?"—":(Math.round(x*1000)/10).toFixed(1)+"%";}
+// green->red self-scaling color within a set of values
+function heat(v,min,max){
+  if(v==null) return "var(--navy3)";
+  let t = max>min ? (v-min)/(max-min) : .5;
+  t=Math.max(0,Math.min(1,t));
+  // interpolate red(0)->mid(.5)->green(1)
+  const stops=[[127,29,29],[82,82,91],[22,163,74]];
+  let c;
+  if(t<.5){const k=t/.5;c=mix(stops[0],stops[1],k);}else{const k=(t-.5)/.5;c=mix(stops[1],stops[2],k);}
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function mix(a,b,k){return a.map((x,i)=>Math.round(x+(b[i]-x)*k));}
+
+/* ---------- render bracket ---------- */
+const board=document.getElementById('board');
+let SELECTED=null;
+function bracketOrder(roundKey){
+  // Order matches the way a real bracket reads: walk the tree from the final down
+  // each match's two feeders, so the two games feeding one match sit adjacent.
+  const out=[];
+  function walk(no){
+    const m=ALL_MATCHES[no]; if(!m) return;
+    if(m.round===roundKey) out.push(m);
+    [m.a,m.b].forEach(ref=>{
+      const n = (typeof ref==="number")?ref:(/^\d+$/.test(ref)?+ref:null);
+      if(n!==null) walk(n);
+    });
+  }
+  walk(104);
+  return out;
+}
+function render(){
+  resolveAll();
+  board.innerHTML="";
+  ROUNDS.forEach(([key,title,arr])=>{
+    const col=document.createElement('div');col.className="col"+(key==="SF"?" center":"");
+    col.innerHTML=`<div class="coltitle">${title}</div>`;
+    const cb=document.createElement('div');cb.className="colbody";
+    bracketOrder(key).forEach(m=>cb.appendChild(matchEl(m.m)));
+    col.appendChild(cb);board.appendChild(col);
+  });
+  // champion + final + third
+  const fc=document.createElement('div');fc.className="col champwrap";
+  fc.innerHTML=`<div class="coltitle">Final</div>`;
+  const fb=document.createElement('div');fb.className="colbody";
+  fb.appendChild(matchEl(104));
+  // champion card
+  const champ=championTeam();
+  const cc=document.createElement('div');cc.className="champ-card";cc.style.marginTop="14px";
+  if(champ){cc.innerHTML=`<div class="lbl">Champion</div><div class="fl">${WC.TEAMS[champ].flag}</div>
+     <div class="nm">${champ}</div><div class="sub">${pct(WC.TEAMS[champ].champ)} pre-tournament title odds</div>`;}
+  else {cc.innerHTML=`<div class="lbl">Champion</div><div class="fl" style="opacity:.3">🏆</div>
+     <div class="nm" style="color:var(--gray4);font-size:15px">To be decided</div>
+     <div class="sub">Set the final winner to crown</div>`;}
+  fb.appendChild(cc);
+  // third place
+  const tp=document.createElement('div');tp.style.marginTop="14px";
+  tp.innerHTML=`<div class="coltitle" style="font-size:11px">Third place</div>`;
+  tp.appendChild(matchEl(103));
+  fb.appendChild(tp);
+  fc.appendChild(fb);board.appendChild(fc);
+}
+
+function matchEl(no){
+  const m=ALL_MATCHES[no];const st=SLOTS[no];
+  const el=document.createElement('div');el.className="match"+(SELECTED===no?" sel":"");
+  const pa=participant(no,"a"),pb=participant(no,"b");
+  const vshort = m.venue==="New York/New Jersey" ? "NY/NJ" : m.venue;
+  el.innerHTML=`<div class="mhead"><b>Match ${no}</b><span class="mv">${m.date} · ${vshort}</span></div>`;
+  el.appendChild(slotEl(no,"a",pa,st));
+  el.appendChild(slotEl(no,"b",pb,st));
+  el.querySelector('.mhead').addEventListener('click',e=>{e.stopPropagation();openCompare(no);});
+  el.addEventListener('click',()=>openCompare(no));
+  return el;
+}
+function slotEl(no,side,part,st){
+  const s=document.createElement('div');
+  const team=part.team;
+  const isWin = st.winner===side;
+  s.className="slot"+(team?" clk":" ph")+(isWin?" win":"");
+  if(team){
+    const T=WC.TEAMS[team];
+    s.innerHTML=`<span class="fl">${T.flag}</span><span class="nm">${team}</span><span class="wp">${pct(T.champ)}</span>`;
+    s.addEventListener('click',e=>{e.stopPropagation();openTeam(team);});
+    // advance control
+    if(no!==103){const a=document.createElement('button');a.className="advbtn";a.textContent=isWin?"won":"advance";
+      a.title="Mark winner → next round";
+      a.addEventListener('click',e=>{e.stopPropagation();setWinner(no,side);});
+      s.appendChild(a);}
+    // clear control — only for directly-assigned R32 slots (returns the dropdown)
+    if(part.kind==="slot"){const x=document.createElement('button');x.className="clrbtn";x.textContent="✕";
+      x.title="Remove team — pick another";
+      x.addEventListener('click',e=>{e.stopPropagation();assign(no,side,"");});
+      s.appendChild(x);}
+  } else {
+    s.innerHTML=`<span class="fl">·</span><span class="nm">${part.code? (part.kind==="slot"?slotLabel(part.code):part.code) : "TBD"}</span>`;
+    if(part.kind==="slot"){
+      const sel=document.createElement('select');
+      sel.innerHTML=`<option value="">Assign team…</option>`+
+        eligibleTeams(part.code).map(t=>`<option value="${t}">${WC.TEAMS[t].flag} ${t}</option>`).join("");
+      sel.addEventListener('click',e=>e.stopPropagation());
+      sel.addEventListener('change',e=>{assign(no,side,e.target.value);});
+      s.appendChild(sel);
+    }
+  }
+  return s;
+}
+
+/* ---------- mutations ---------- */
+function assign(no,side,team){ SLOTS[no][side]=team||null; if(SLOTS[no].winner===side&&!team)SLOTS[no].winner=null; save();render(); }
+function setWinner(no,side){
+  const part=participant(no,side); if(!part.team)return;
+  SLOTS[no].winner = (SLOTS[no].winner===side?null:side);
+  save();render();
+}
+// resolve aTeamResolved/bTeamResolved on every match so feeders can read winners
+function resolveAll(){
+  // iterate rounds in order so earlier winners propagate
+  const order=[...WC.BRACKET.R32,...WC.BRACKET.R16,...WC.BRACKET.QF,...WC.BRACKET.SF,WC.BRACKET.FINAL,WC.BRACKET.THIRD];
+  order.forEach(m=>{
+    const a=participant(m.m,"a"),b=participant(m.m,"b");
+    SLOTS[m.m].aTeamResolved=a.team;SLOTS[m.m].bTeamResolved=b.team;
+    // clear stale winner if participant missing
+    if(SLOTS[m.m].winner==="a"&&!a.team)SLOTS[m.m].winner=null;
+    if(SLOTS[m.m].winner==="b"&&!b.team)SLOTS[m.m].winner=null;
+  });
+}
+function championTeam(){const f=SLOTS[104];if(f&&f.winner)return f.winner==="a"?f.aTeamResolved:f.bTeamResolved;return null;}
+
+/* ---------- panels ---------- */
+const panel=document.getElementById('panel'),pbody=document.getElementById('pbody'),scrim=document.getElementById('scrim');
+function showPanel(html){pbody.innerHTML=html;panel.classList.add('open');scrim.classList.add('on');}
+function closePanel(){panel.classList.remove('open');scrim.classList.remove('on');SELECTED=null;render();}
+document.getElementById('px').addEventListener('click',closePanel);
+scrim.addEventListener('click',closePanel);
+
+const LADDER=[["win_grp","Win group"],["qualify","Reach R32"],["top2","Top 2"],["r16","Reach R16"],
+              ["qf","Reach QF"],["sf","Reach SF"],["final","Reach final"],["champ","Champion"]];
+function teamLadder(team){
+  const T=WC.TEAMS[team];
+  return `<div class="ladder">`+LADDER.map(([k,lb])=>{
+    const v=T[k]; const w=v==null?0:Math.max(2,v*100);
+    return `<div class="lrow"><span class="lb">${lb}</span>
+      <div class="bar"><span style="width:${w}%;background:${heat(v,0,1)}"></span></div>
+      <span class="pv">${pct(v)}</span></div>`;
+  }).join("")+`</div>`;
+}
+function formPills(T){
+  if(!T.form||!T.form.length) return "";
+  const pills=T.form.map(g=>`<span class="fp fp-${g.r}" title="${g.r} vs ${g.o} ${g.gf}-${g.ga}">${g.r}</span>`).join("");
+  const last=T.form.slice(-4).reverse().map(g=>`<div class="frow"><span class="fr-r fp-${g.r}">${g.r}</span><span class="fr-o">${g.o}</span><span class="fr-s">${g.gf}-${g.ga}</span></div>`).join("");
+  const rec=T.rec?`${T.rec.W||0}W · ${T.rec.D||0}D · ${T.rec.L||0}L`:"";
+  return `<div class="formhead"><div class="pills">${pills}</div><span class="rec">${rec}</span></div><div class="frows">${last}</div>`;
+}
+function openTeam(team){
+  const T=WC.TEAMS[team];
+  const projRank=["1st","2nd","3rd","4th"][T.proj_rank]||"—";
+  const col=T.color||"var(--green)";
+  showPanel(`
+    <div class="accent" style="background:linear-gradient(90deg,${col},transparent)"></div>
+    <div class="ph-team"><span class="fl">${T.flag}</span><div>
+      <div class="nm">${team}</div>
+      <div class="meta">Group ${T.group} · projected ${projRank}${T.p_pts!=null?" · "+T.p_pts.toFixed(2)+" pts":""}</div></div></div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">Title odds · model</div><div class="v" style="color:var(--pos)">${pct(T.champ)}</div></div>
+      <div class="kpi"><div class="k">Title odds · market</div><div class="v">${T.mkt!=null?pct(T.mkt):"—"}</div></div>
+      <div class="kpi"><div class="k">FIFA rank</div><div class="v">${T.fifa??"—"}</div></div>
+      <div class="kpi"><div class="k">Elo</div><div class="v">${T.elo??"—"}</div></div>
+    </div>
+    ${T.mgr?`<div class="line"><span class="li-ic">★</span><div><span class="li-k">Manager</span><span class="li-v">${T.mgr.name}${T.mgr.nat?" · "+T.mgr.nat:""}${T.mgr.yr?" · since "+T.mgr.yr:""}</span></div></div>`:""}
+    ${(T.form&&T.form.length)?`<div class="sectitle">Recent form</div>${formPills(T)}`:""}
+    <div class="sectitle">Path probability${SRC_SUFFIX}</div>
+    ${teamLadder(team)}
+    <div class="sectitle">Group finish${SRC_SUFFIX}</div>
+    <div class="gsplit">
+      ${[["1st",T.g1],["2nd",T.g2],["3rd",T.g3],["4th",T.g4]].map(([lb,v])=>
+        `<div class="gcell"><div class="gp">${lb}</div><div class="gv">${pct(v)}</div></div>`).join("")}
+    </div>
+    <div class="note" style="margin-top:8px">Advance as best 3rd: <b>${pct(T.adv3)}</b></div>
+    ${T.sp?`<div class="sectitle">Set-piece takers</div>
+      <div class="sp2"><div class="spc"><span class="li-k">Penalties</span><span class="li-v">${T.sp.pen||"—"}</span></div>
+      <div class="spc"><span class="li-k">Corners / FKs</span><span class="li-v">${T.sp.ck||"—"}</span></div></div>`:""}
+    <div class="sectitle">World Cup pedigree</div>
+    <div class="sp2"><div class="spc"><span class="li-k">Appearances</span><span class="li-v">${T.wcApps??"—"}</span></div>
+      <div class="spc"><span class="li-k">Last edition</span><span class="li-v">${T.prev||"—"}</span></div></div>
+    <div class="prov">Model probabilities & group split: ${SRC_LONG_SHOW} · Market odds: book consensus · Manager, form, set pieces: Action tool · FIFA/Elo: tool ratings</div>
+  `);
+}
+const CMP=[["champ","Champion · model"],["mkt","Champion · market"],["sf","Reach SF"],["qf","Reach QF"],["r16","Reach R16"],["fifa","FIFA rank"],["elo","Elo"]];
+function openCompare(no){
+  SELECTED=no;render();
+  const m=ALL_MATCHES[no];const pa=participant(no,"a"),pb=participant(no,"b");
+  const ta=pa.team,tb=pb.team;
+  const head=(p)=>{ if(p.team){const T=WC.TEAMS[p.team];
+      return `<div class="ct"><div class="fl">${T.flag}</div><div class="nm">${p.team}</div><div class="gp">Grp ${T.group}</div></div>`;}
+    return `<div class="ct"><div class="fl" style="opacity:.3">·</div><div class="nm" style="color:var(--gray4);font-size:12px">${pa===p? (pa.kind==="slot"?slotLabel(pa.code):pa.code):(pb.kind==="slot"?slotLabel(pb.code):pb.code)}</div></div>`;};
+  let rows="";
+  CMP.forEach(([k,lb])=>{
+    const va=ta?WC.TEAMS[ta][k]:null, vb=tb?WC.TEAMS[tb][k]:null;
+    const fmt=(v)=>v==null?"—":(k==="fifa"||k==="elo"?v:pct(v));
+    rows+=`<div class="cmprow"><div class="cv l">${fmt(va)}</div><div class="clab">${lb}</div><div class="cv r">${fmt(vb)}</div></div>`;
+  });
+  function codesOf(n){const mm=ALL_MATCHES[n];let o=[];
+    ["a","b"].forEach(s=>{const r=mm[s];o=o.concat(typeof r==="string"?[r]:codesOf(r));});return o;}
+  function slotTop(code){const mk=code[0]==="W"?"g1":code[0]==="R"?"g2":"adv3";
+    return eligibleTeams(code).slice().sort((x,y)=>WC.TEAMS[y][mk]-WC.TEAMS[x][mk])[0];}
+  function rowsHtml(list,mk){const max=Math.max(...list.map(t=>WC.TEAMS[t][mk]),0.001);
+    return list.map(t=>{const v=WC.TEAMS[t][mk];const w=Math.max(3,(v/max)*100);
+      return `<div class="crow"><span class="crfl">${WC.TEAMS[t].flag}</span><span class="crnm">${t}</span>`
+        +`<span class="crbar"><i style="width:${w}%;background:${heat(v,0,max)}"></i></span>`
+        +`<span class="crpct">${pct(v)}</span></div>`;}).join("");}
+  const RND={R16:["r16","the Round of 16"],QF:["qf","the Quarter-finals"],
+             SF:["sf","the Semi-finals"],FINAL:["final","the Final"],THIRD:["sf","the Semi-finals"]};
+  // teams whose group placement is already locked (winners, runners-up, pinned thirds)
+  // — they can't still be "chances to finish" anything, so drop them from candidate lists.
+  const placed=new Set(Object.values(WC.CONFIRMED||{}));
+  let candHtml="", candTitle="";
+  if(pa.kind==="slot" || pb.kind==="slot"){
+    candTitle="Who can fill these slots";
+    [["a",pa],["b",pb]].forEach(([sd,p])=>{
+      if(p.team || p.kind!=="slot") return;
+      const mk=p.code[0]==="W"?"g1":p.code[0]==="R"?"g2":"adv3";
+      const sub=p.code[0]==="W"?("Chance to win Group "+p.code.slice(2))
+              :p.code[0]==="R"?("Chance to finish 2nd in Group "+p.code.slice(2))
+              :"Chance to advance as a 3rd";
+      let cands=eligibleTeams(p.code).filter(t=>!placed.has(t)).sort((x,y)=>WC.TEAMS[y][mk]-WC.TEAMS[x][mk]);
+      let shown=cands.filter(t=>WC.TEAMS[t][mk]>=0.005); if(!shown.length)shown=cands.slice(0,3);
+      candHtml+=`<div class="cblock"><div class="chead">${slotLabel(p.code)}<span class="csub">${sub}</span></div>${rowsHtml(shown,mk)}</div>`;
+    });
+  } else if((!pa.team || !pb.team) && RND[m.round]){
+    // feeder match still open: projected R32 qualifiers feeding this match, by chance to reach this round
+    candTitle="Who could reach this match";
+    const [mk,rname]=RND[m.round];
+    const set=new Set(); codesOf(no).forEach(c=>{const t=slotTop(c); if(t)set.add(t);});
+    let cands=[...set].filter(t=>!placed.has(t)).sort((x,y)=>WC.TEAMS[y][mk]-WC.TEAMS[x][mk]);
+    let shown=cands.filter(t=>WC.TEAMS[t][mk]>=0.005).slice(0,10); if(!shown.length)shown=cands.slice(0,6);
+    candHtml=`<div class="cblock"><div class="chead">Projected contenders<span class="csub">Projected group qualifiers in this section · chance to reach ${rname}</span></div>${rowsHtml(shown,mk)}</div>`;
+  }
+  const recS=(t)=>{const r=WC.TEAMS[t]&&WC.TEAMS[t].rec;return r?`${r.W||0}-${r.D||0}-${r.L||0}`:"—";};
+  const mgrS=(t)=>{const mr=WC.TEAMS[t]&&WC.TEAMS[t].mgr;return mr?mr.name:"—";};
+  const extra=(ta&&tb)?
+    `<div class="cmprow"><div class="cv l">${recS(ta)}</div><div class="clab">Form W-D-L</div><div class="cv r">${recS(tb)}</div></div>`
+    +`<div class="cmprow"><div class="cv l" style="font-size:11.5px">${mgrS(ta)}</div><div class="clab">Manager</div><div class="cv r" style="font-size:11.5px">${mgrS(tb)}</div></div>`:"";
+  showPanel(`
+    <div class="sectitle">Match ${no} · ${m.date} · ${m.venue}</div>
+    <div class="cmp">${head(pa)}<div class="vs">vs</div>${head(pb)}</div>
+    ${(ta||tb)?`<div class="sectitle">Side-by-side</div>${rows}${extra}`:""}
+    ${candHtml?`<div class="sectitle" style="margin-top:14px">${candTitle}</div>${candHtml}`:""}
+    ${(ta&&tb)?`<div class="note" style="margin-top:14px">Hover a team in the bracket and click <b>advance</b> to push the winner into Match ${nextMatchOf(no)||"—"}.</div>`:""}
+  `);
+}
+function nextMatchOf(no){
+  for(const k in ALL_MATCHES){const m=ALL_MATCHES[k];if(m.a===no||m.b===no)return k;}return null;
+}
+
+/* ---------- toolbar: single projected/clear toggle ---------- */
+function clearBoard(){ for(const k in SLOTS)SLOTS[k]={a:null,b:null,winner:null}; }
+function fillProjected(){
+  // fill Winner/Runner-up slots from projected order; 3rd-place slots left for manual entry
+  WC.BRACKET.R32.forEach(m=>["a","b"].forEach(sd=>{
+    const code=m[sd];
+    if(code[0]==="W"||code[0]==="R"){
+      const teams=WC.GROUPS[code.slice(2)]; const idx=code[0]==="W"?0:1;
+      if(teams&&teams[idx])SLOTS[m.m][sd]=teams[idx];
+    }
+  }));
+  seedConfirmed();   // confirmed (real) teams always override projections
+}
+const projToggle=document.getElementById('projToggle');
+function setToggle(on){ projToggle.setAttribute('aria-checked', on?'true':'false'); }
+projToggle.addEventListener('click',()=>{
+  const on = projToggle.getAttribute('aria-checked')!=='true';
+  if(on){ fillProjected(); }
+  else { if(!confirm("Clear all assigned teams and results?")){return;} clearBoard(); seedConfirmed(); }
+  setToggle(on); save(); render(); closePanel();
+});
+
+/* ---------- light / dark theme toggle ---------- */
+const themeToggle=document.getElementById('themeToggle');
+const THEMEKEY='wc2026_theme';
+function applyTheme(light){
+  document.body.classList.toggle('light', light);
+  themeToggle.setAttribute('aria-checked', light?'true':'false');
+}
+themeToggle.addEventListener('click',()=>{
+  const light = themeToggle.getAttribute('aria-checked')!=='true';
+  applyTheme(light);
+  try{ localStorage.setItem(THEMEKEY, light?'light':'dark'); }catch(e){}
+});
+(function(){ let t='dark'; try{ t=localStorage.getItem(THEMEKEY)||'dark'; }catch(e){} applyTheme(t==='light'); })();
+
+/* ---------- pre-seed confirmed group winners (verified Jun 23) ---------- */
+function seedConfirmed(){
+  // WC.CONFIRMED maps R32 slot codes (W-x / R-x) to FIFA-confirmed teams (built by the bake
+  // from results.json). Falls back to the original four winners if not present.
+  const conf = WC.CONFIRMED || {"W-A":"Mexico","W-D":"United States","W-E":"Germany","W-J":"Argentina"};
+  WC.BRACKET.R32.forEach(m=>["a","b"].forEach(sd=>{
+    const c=m[sd]; if(conf[c]) SLOTS[m.m][sd]=conf[c];
+  }));
+}
+
+/* ---------- apply published match winners (authoritative for all viewers) ---------- */
+function seedWinners(){
+  const W = WC.WINNERS || {};
+  if(!Object.keys(W).length) return;
+  const order=[...WC.BRACKET.R32,...WC.BRACKET.R16,...WC.BRACKET.QF,...WC.BRACKET.SF,WC.BRACKET.FINAL,WC.BRACKET.THIRD];
+  order.forEach(m=>{
+    resolveAll();                       // make sure this match's participants are resolved
+    const want=W[m.m]; if(!want) return;
+    if(SLOTS[m.m].aTeamResolved===want) SLOTS[m.m].winner="a";
+    else if(SLOTS[m.m].bTeamResolved===want) SLOTS[m.m].winner="b";
+    // if not a participant, skip (bake already validates; guards against stale data)
+  });
+  resolveAll();
+}
+
+load();
+seedConfirmed();   // always apply confirmed teams (authoritative for every viewer)
+seedWinners();     // then apply published match winners (advances them into later rounds)
+// reflect toggle: on if most Winner/Runner-up slots are filled
+(function(){let f=0,t=0;WC.BRACKET.R32.forEach(m=>["a","b"].forEach(sd=>{
+  const c=m[sd]; if(c[0]==="W"||c[0]==="R"){t++; if(SLOTS[m.m][sd])f++;}}));
+  setToggle(t>0 && f>=t-2);})();
+render();
+
+/* ---------- group standings panel (top-right rail) ---------- */
+function renderStandings(){
+  const el=document.getElementById('standings');
+  const S=WC.STANDINGS;
+  if(!el) return;
+  let played=0;
+  if(S){ for(const g in S) S[g].forEach(t=>played+=(t.p||0)); }
+  if(!S || played===0){ el.classList.remove('on'); el.innerHTML=''; return; }
+  let html='<div class="st-title">Group Standings</div>'
+         +'<div class="st-sub">P · GD · Pts &nbsp;·&nbsp; ✓ qualified</div><div class="st-grid">';
+  Object.keys(S).sort().forEach(g=>{
+    html+=`<div class="st-grp"><div class="st-gh"><span>Group ${g}</span></div>`;
+    S[g].forEach((t,i)=>{
+      const gd=(t.gd>0?'+':'')+t.gd;
+      html+=`<div class="st-row${t.q?' qual':''}">`
+          +`<span class="st-pos">${i+1}</span>`
+          +`<span>${t.flag||''}</span>`
+          +`<span class="st-nm">${t.team}${t.q?' <span class="st-q">✓</span>':''}</span>`
+          +`<span class="st-n">${t.p}</span>`
+          +`<span class="st-n">${gd}</span>`
+          +`<span class="st-pts">${t.pts}</span></div>`;
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html+'</div>';
+  el.classList.add('on');
+}
+renderStandings();
+</script>
+</body>
+</html>
