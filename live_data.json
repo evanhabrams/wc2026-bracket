@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-07T04:23:01.809241+00:00",
+  "updated_at": "2026-07-07T14:25:28.874609+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,19 +21,19 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-07T04:23:00.207586+00:00",
+      "as_of": "2026-07-07T14:25:27.141542+00:00",
       "source": "The Odds API",
       "events": 5
     },
     "winner_outrights": {
-      "as_of": "2026-07-07T04:23:00.480810+00:00",
+      "as_of": "2026-07-07T14:25:27.350958+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
       ]
     },
     "match_projections": {
-      "as_of": "2026-07-07T04:23:01.809040+00:00",
+      "as_of": "2026-07-07T14:25:28.874323+00:00",
       "source": "Action Network / Nick Giffen",
       "sheet": "https://docs.google.com/spreadsheets/d/12v8WebV5SakStof9ByCLxAKZWeePqbBgGyZs1dTh_DE",
       "tab": "Per Game xG",
@@ -796,39 +796,33 @@
       "home": "Argentina",
       "away": "Egypt",
       "books": [
-        "FanDuel",
-        "BetOnline.ag",
-        "MyBookie.ag",
         "DraftKings",
+        "MyBookie.ag",
+        "BetOnline.ag",
+        "FanDuel",
         "BetUS",
-        "Bovada",
         "BetRivers",
-        "BetMGM"
+        "BetMGM",
+        "Bovada"
       ],
       "consensus": {
         "h2h": {
-          "home": -286,
-          "away": 882,
-          "draw": 382
+          "home": -300,
+          "away": 964,
+          "draw": 386
         },
         "totals": {
           "2.5": {
-            "over": 33,
-            "under": -122
+            "over": -106,
+            "under": -114
           }
         },
         "spreads": {
           "-1.5": {
-            "Argentina": 112
+            "Argentina": 52
           },
           "1.5": {
-            "Egypt": -132
-          },
-          "-1.25": {
-            "Argentina": -128
-          },
-          "1.25": {
-            "Egypt": 108
+            "Egypt": -122
           }
         }
       }
@@ -839,43 +833,43 @@
       "home": "Switzerland",
       "away": "Colombia",
       "books": [
-        "FanDuel",
         "BetOnline.ag",
         "MyBookie.ag",
         "DraftKings",
+        "FanDuel",
         "BetUS",
-        "Bovada",
         "BetRivers",
-        "BetMGM"
+        "BetMGM",
+        "Bovada"
       ],
       "consensus": {
         "h2h": {
-          "home": 256,
-          "away": 124,
-          "draw": 209
+          "home": 258,
+          "away": 125,
+          "draw": 206
         },
         "totals": {
           "2.5": {
-            "over": 132,
-            "under": -170
+            "over": 128,
+            "under": -168
           },
           "2.0": {
-            "over": -138,
-            "under": 116
+            "over": -141,
+            "under": 120
           }
         },
         "spreads": {
           "-0.5": {
-            "Colombia": 125
+            "Colombia": 124
           },
           "0.5": {
-            "Switzerland": -147
+            "Switzerland": -145
           },
           "-0.25": {
-            "Colombia": -115
+            "Colombia": -112
           },
           "0.25": {
-            "Switzerland": -105
+            "Switzerland": -108
           }
         }
       }
@@ -886,33 +880,33 @@
       "home": "France",
       "away": "Morocco",
       "books": [
-        "FanDuel",
         "BetOnline.ag",
         "MyBookie.ag",
         "DraftKings",
+        "FanDuel",
         "BetUS",
-        "Bovada",
         "BetRivers",
-        "BetMGM"
+        "BetMGM",
+        "Bovada"
       ],
       "consensus": {
         "h2h": {
-          "home": -173,
-          "away": 516,
-          "draw": 289
+          "home": -172,
+          "away": 509,
+          "draw": 290
         },
         "totals": {
           "2.5": {
-            "over": -2,
-            "under": -122
+            "over": -71,
+            "under": -120
           }
         },
         "spreads": {
           "-1.0": {
-            "France": -53
+            "France": -51
           },
           "1.0": {
-            "Morocco": -120
+            "Morocco": -123
           }
         }
       }
@@ -923,38 +917,33 @@
       "home": "Spain",
       "away": "Belgium",
       "books": [
-        "FanDuel",
         "BetOnline.ag",
         "MyBookie.ag",
         "DraftKings",
-        "Bovada",
+        "FanDuel",
+        "BetUS",
         "BetRivers",
-        "BetMGM"
+        "BetMGM",
+        "Bovada"
       ],
       "consensus": {
         "h2h": {
-          "home": -160,
-          "away": 448,
+          "home": -161,
+          "away": 457,
           "draw": 294
         },
         "totals": {
           "2.5": {
-            "over": -124,
-            "under": -22
+            "over": -126,
+            "under": 67
           }
         },
         "spreads": {
           "1.0": {
-            "Belgium": -132
+            "Belgium": -130
           },
           "-1.0": {
-            "Spain": 106
-          },
-          "0.75": {
-            "Belgium": 105
-          },
-          "-0.75": {
-            "Spain": -125
+            "Spain": 107
           }
         }
       }
@@ -965,25 +954,25 @@
       "home": "Norway",
       "away": "England",
       "books": [
-        "FanDuel",
         "BetOnline.ag",
         "MyBookie.ag",
         "DraftKings",
+        "FanDuel",
         "BetUS",
-        "Bovada",
         "BetRivers",
-        "BetMGM"
+        "BetMGM",
+        "Bovada"
       ],
       "consensus": {
         "h2h": {
-          "home": 300,
-          "away": -113,
+          "home": 306,
+          "away": -114,
           "draw": 267
         },
         "totals": {
           "2.5": {
-            "over": -132,
-            "under": 74
+            "over": -136,
+            "under": 110
           }
         },
         "spreads": {
@@ -991,7 +980,7 @@
             "England": -114
           },
           "0.5": {
-            "Norway": -109
+            "Norway": -108
           }
         }
       }
