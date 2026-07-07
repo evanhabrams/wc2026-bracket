@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-07T19:17:08.086452+00:00",
+  "updated_at": "2026-07-07T23:51:02.650780+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,19 +21,19 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-07T19:17:06.341140+00:00",
+      "as_of": "2026-07-07T23:51:01.158653+00:00",
       "source": "The Odds API",
       "events": 4
     },
     "winner_outrights": {
-      "as_of": "2026-07-07T19:17:06.642928+00:00",
+      "as_of": "2026-07-07T23:51:01.335936+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
       ]
     },
     "match_projections": {
-      "as_of": "2026-07-07T19:17:08.086281+00:00",
+      "as_of": "2026-07-07T23:51:02.650608+00:00",
       "source": "Action Network / Nick Giffen",
       "sheet": "https://docs.google.com/spreadsheets/d/12v8WebV5SakStof9ByCLxAKZWeePqbBgGyZs1dTh_DE",
       "tab": "Per Game xG",
@@ -791,85 +791,38 @@
   },
   "match_odds": [
     {
-      "id": "a6da973c5749ce60adab77d64b3664f4",
-      "commence": "2026-07-07T20:00:00Z",
-      "home": "Switzerland",
-      "away": "Colombia",
-      "books": [
-        "BetMGM",
-        "BetUS",
-        "FanDuel",
-        "DraftKings",
-        "Bovada",
-        "MyBookie.ag",
-        "BetRivers",
-        "BetOnline.ag"
-      ],
-      "consensus": {
-        "h2h": {
-          "home": 253,
-          "away": 131,
-          "draw": 198
-        },
-        "totals": {
-          "2.5": {
-            "over": 132,
-            "under": -166
-          },
-          "2.0": {
-            "over": -138,
-            "under": 116
-          }
-        },
-        "spreads": {
-          "-0.5": {
-            "Colombia": 131
-          },
-          "0.5": {
-            "Switzerland": -153
-          },
-          "-0.25": {
-            "Colombia": -108
-          },
-          "0.25": {
-            "Switzerland": -112
-          }
-        }
-      }
-    },
-    {
       "id": "b6e926d7f026782b9cab2fa02b823d92",
       "commence": "2026-07-09T20:00:00Z",
       "home": "France",
       "away": "Morocco",
       "books": [
-        "BetMGM",
-        "BetUS",
-        "FanDuel",
-        "DraftKings",
         "Bovada",
         "MyBookie.ag",
+        "BetMGM",
         "BetRivers",
-        "BetOnline.ag"
+        "BetOnline.ag",
+        "FanDuel",
+        "BetUS",
+        "DraftKings"
       ],
       "consensus": {
         "h2h": {
-          "home": -176,
-          "away": 530,
-          "draw": 294
+          "home": -172,
+          "away": 523,
+          "draw": 291
         },
         "totals": {
           "2.5": {
-            "over": -72,
-            "under": -119
+            "over": -74,
+            "under": -117
           }
         },
         "spreads": {
           "-1.0": {
-            "France": -55
+            "France": -54
           },
           "1.0": {
-            "Morocco": -118
+            "Morocco": -119
           }
         }
       }
@@ -880,33 +833,33 @@
       "home": "Spain",
       "away": "Belgium",
       "books": [
-        "BetMGM",
-        "BetUS",
-        "FanDuel",
-        "DraftKings",
         "Bovada",
+        "BetMGM",
         "MyBookie.ag",
         "BetRivers",
-        "BetOnline.ag"
+        "BetOnline.ag",
+        "FanDuel",
+        "BetUS",
+        "DraftKings"
       ],
       "consensus": {
         "h2h": {
-          "home": -164,
-          "away": 458,
-          "draw": 296
+          "home": -162,
+          "away": 464,
+          "draw": 292
         },
         "totals": {
           "2.5": {
-            "over": -126,
-            "under": 34
+            "over": -123,
+            "under": -1
           }
         },
         "spreads": {
           "1.0": {
-            "Belgium": -128
+            "Belgium": -130
           },
           "-1.0": {
-            "Spain": 55
+            "Spain": 107
           }
         }
       }
@@ -917,33 +870,79 @@
       "home": "Norway",
       "away": "England",
       "books": [
-        "BetMGM",
-        "BetUS",
-        "FanDuel",
-        "DraftKings",
         "Bovada",
+        "BetMGM",
         "MyBookie.ag",
         "BetRivers",
-        "BetOnline.ag"
+        "BetOnline.ag",
+        "FanDuel",
+        "BetUS",
+        "DraftKings"
       ],
       "consensus": {
         "h2h": {
-          "home": 306,
-          "away": -114,
+          "home": 314,
+          "away": -116,
           "draw": 268
         },
         "totals": {
           "2.5": {
-            "over": -134,
-            "under": 108
+            "over": -140,
+            "under": 113
           }
         },
         "spreads": {
           "-0.5": {
-            "England": -114
+            "England": -118
           },
           "0.5": {
-            "Norway": -108
+            "Norway": -105
+          }
+        }
+      }
+    },
+    {
+      "id": "200d9cd5eda092c7eb778cc104cd2fd2",
+      "commence": "2026-07-12T01:00:00Z",
+      "home": "Argentina",
+      "away": "Switzerland",
+      "books": [
+        "Bovada",
+        "BetMGM",
+        "MyBookie.ag",
+        "BetRivers",
+        "BetOnline.ag",
+        "FanDuel",
+        "DraftKings"
+      ],
+      "consensus": {
+        "h2h": {
+          "home": -139,
+          "away": 437,
+          "draw": 255
+        },
+        "totals": {
+          "2.5": {
+            "over": 119,
+            "under": -153
+          },
+          "2.0": {
+            "over": -146,
+            "under": 129
+          }
+        },
+        "spreads": {
+          "-0.5": {
+            "Argentina": -142
+          },
+          "0.5": {
+            "Switzerland": 114
+          },
+          "-0.75": {
+            "Argentina": -105
+          },
+          "0.75": {
+            "Switzerland": -115
           }
         }
       }
@@ -953,13 +952,12 @@
     "consensus": {
       "France": 180,
       "Spain": 370,
-      "Argentina": 420,
+      "Argentina": 400,
       "England": 470,
       "Norway": 1550,
-      "Colombia": 2400,
+      "Morocco": 2800,
       "Belgium": 3000,
-      "Morocco": 3000,
-      "Switzerland": 7400
+      "Switzerland": 3200
     },
     "books": [
       "DraftKings"
