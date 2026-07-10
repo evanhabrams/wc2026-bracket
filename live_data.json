@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-09T14:01:32.679450+00:00",
+  "updated_at": "2026-07-10T00:09:27.600095+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,19 +21,19 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-09T14:01:30.597342+00:00",
+      "as_of": "2026-07-10T00:09:26.001527+00:00",
       "source": "The Odds API",
-      "events": 4
+      "events": 3
     },
     "winner_outrights": {
-      "as_of": "2026-07-09T14:01:30.961717+00:00",
+      "as_of": "2026-07-10T00:09:26.178758+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
       ]
     },
     "match_projections": {
-      "as_of": "2026-07-09T14:01:32.679257+00:00",
+      "as_of": "2026-07-10T00:09:27.599885+00:00",
       "source": "Action Network / Nick Giffen",
       "sheet": "https://docs.google.com/spreadsheets/d/12v8WebV5SakStof9ByCLxAKZWeePqbBgGyZs1dTh_DE",
       "tab": "Per Game xG",
@@ -791,75 +791,39 @@
   },
   "match_odds": [
     {
-      "id": "b6e926d7f026782b9cab2fa02b823d92",
-      "commence": "2026-07-09T20:00:00Z",
-      "home": "France",
-      "away": "Morocco",
-      "books": [
-        "DraftKings",
-        "BetOnline.ag",
-        "BetMGM",
-        "MyBookie.ag",
-        "BetRivers",
-        "FanDuel",
-        "BetUS",
-        "Bovada"
-      ],
-      "consensus": {
-        "h2h": {
-          "home": -173,
-          "away": 536,
-          "draw": 286
-        },
-        "totals": {
-          "2.5": {
-            "over": 33,
-            "under": -122
-          }
-        },
-        "spreads": {
-          "-1.0": {
-            "France": 52
-          },
-          "1.0": {
-            "Morocco": -121
-          }
-        }
-      }
-    },
-    {
       "id": "fca257de4583bd4bc592e8b2a8f24ad7",
       "commence": "2026-07-10T19:00:00Z",
       "home": "Spain",
       "away": "Belgium",
       "books": [
-        "DraftKings",
         "BetOnline.ag",
         "MyBookie.ag",
         "BetMGM",
-        "BetRivers",
-        "FanDuel",
+        "LowVig.ag",
         "BetUS",
-        "Bovada"
+        "Bovada",
+        "BetRivers",
+        "DraftKings",
+        "FanDuel"
       ],
       "consensus": {
         "h2h": {
-          "home": -157,
-          "away": 441,
-          "draw": 292
+          "home": -156,
+          "away": 438,
+          "draw": 291
         },
         "totals": {
           "2.5": {
-            "over": -127,
-            "under": 69
+            "over": -126,
+            "under": 104
           }
         },
         "spreads": {
           "1.0": {
-            "Belgium": -137
+            "Belgium": -131
           },
           "-1.0": {
-            "Spain": 111
+            "Spain": 112
           },
           "0.75": {
             "Belgium": 105
@@ -876,33 +840,34 @@
       "home": "Norway",
       "away": "England",
       "books": [
-        "DraftKings",
         "BetOnline.ag",
         "MyBookie.ag",
         "BetMGM",
-        "BetRivers",
-        "FanDuel",
+        "LowVig.ag",
         "BetUS",
-        "Bovada"
+        "Bovada",
+        "BetRivers",
+        "DraftKings",
+        "FanDuel"
       ],
       "consensus": {
         "h2h": {
           "home": 318,
           "away": -117,
-          "draw": 266
+          "draw": 268
         },
         "totals": {
           "2.5": {
-            "over": -134,
-            "under": 108
+            "over": -135,
+            "under": 110
           }
         },
         "spreads": {
           "-0.5": {
-            "England": -119
+            "England": -118
           },
           "0.5": {
-            "Norway": -54
+            "Norway": -23
           }
         }
       }
@@ -913,37 +878,38 @@
       "home": "Argentina",
       "away": "Switzerland",
       "books": [
-        "DraftKings",
         "BetOnline.ag",
-        "BetMGM",
         "MyBookie.ag",
-        "BetRivers",
-        "FanDuel",
+        "BetMGM",
+        "LowVig.ag",
         "BetUS",
-        "Bovada"
+        "Bovada",
+        "BetRivers",
+        "DraftKings",
+        "FanDuel"
       ],
       "consensus": {
         "h2h": {
-          "home": -145,
-          "away": 461,
+          "home": -144,
+          "away": 463,
           "draw": 255
         },
         "totals": {
           "2.5": {
-            "over": 119,
-            "under": -156
+            "over": 118,
+            "under": -157
           },
           "2.0": {
-            "over": -145,
-            "under": 124
+            "over": -146,
+            "under": 126
           }
         },
         "spreads": {
           "-0.5": {
-            "Argentina": -144
+            "Argentina": -143
           },
           "0.5": {
-            "Switzerland": 118
+            "Switzerland": 119
           },
           "-0.75": {
             "Argentina": -115
@@ -957,14 +923,13 @@
   ],
   "winner_outrights": {
     "consensus": {
-      "France": 180,
-      "Spain": 370,
-      "Argentina": 400,
+      "France": 134,
+      "Spain": 410,
+      "Argentina": 420,
       "England": 470,
-      "Norway": 1500,
-      "Morocco": 2800,
-      "Switzerland": 3000,
-      "Belgium": 3000
+      "Norway": 1600,
+      "Belgium": 3200,
+      "Switzerland": 3500
     },
     "books": [
       "DraftKings"
