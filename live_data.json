@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-11T20:56:01.785424+00:00",
+  "updated_at": "2026-07-12T01:02:29.474815+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,19 +21,19 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-11T20:56:00.044183+00:00",
+      "as_of": "2026-07-12T01:02:27.969902+00:00",
       "source": "The Odds API",
-      "events": 3
+      "events": 2
     },
     "winner_outrights": {
-      "as_of": "2026-07-11T20:56:00.218611+00:00",
+      "as_of": "2026-07-12T01:02:28.133426+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
       ]
     },
     "match_projections": {
-      "as_of": "2026-07-11T20:56:01.785315+00:00",
+      "as_of": "2026-07-12T01:02:29.474711+00:00",
       "source": "Action Network / Nick Giffen",
       "sheet": "https://docs.google.com/spreadsheets/d/12v8WebV5SakStof9ByCLxAKZWeePqbBgGyZs1dTh_DE",
       "tab": "Per Game xG",
@@ -791,81 +791,43 @@
   },
   "match_odds": [
     {
-      "id": "e66e4478b739fa0657a7a11235e1fcee",
-      "commence": "2026-07-11T21:00:00Z",
-      "home": "Norway",
-      "away": "England",
-      "books": [
-        "BetUS",
-        "MyBookie.ag",
-        "FanDuel",
-        "DraftKings",
-        "LowVig.ag",
-        "BetMGM",
-        "Bovada",
-        "BetRivers",
-        "BetOnline.ag"
-      ],
-      "consensus": {
-        "h2h": {
-          "home": 329,
-          "away": -123,
-          "draw": 281
-        },
-        "totals": {
-          "2.5": {
-            "over": -138,
-            "under": 116
-          }
-        },
-        "spreads": {
-          "-0.5": {
-            "England": -122
-          },
-          "0.5": {
-            "Norway": 64
-          }
-        }
-      }
-    },
-    {
       "id": "200d9cd5eda092c7eb778cc104cd2fd2",
       "commence": "2026-07-12T01:00:00Z",
       "home": "Argentina",
       "away": "Switzerland",
       "books": [
+        "BetOnline.ag",
+        "DraftKings",
+        "Bovada",
+        "BetMGM",
+        "FanDuel",
         "BetUS",
         "MyBookie.ag",
-        "FanDuel",
-        "DraftKings",
-        "LowVig.ag",
-        "BetMGM",
-        "Bovada",
         "BetRivers",
-        "BetOnline.ag"
+        "LowVig.ag"
       ],
       "consensus": {
         "h2h": {
-          "home": -144,
-          "away": 473,
-          "draw": 251
+          "home": -140,
+          "away": 485,
+          "draw": 235
         },
         "totals": {
           "2.5": {
-            "over": 130,
-            "under": -170
+            "over": 119,
+            "under": -153
           },
           "2.0": {
-            "over": -140,
-            "under": 120
+            "over": -141,
+            "under": 122
           }
         },
         "spreads": {
           "-0.5": {
-            "Argentina": -142
+            "Argentina": -138
           },
           "0.5": {
-            "Switzerland": 122
+            "Switzerland": 118
           },
           "-0.75": {
             "Argentina": -110
@@ -882,21 +844,21 @@
       "home": "France",
       "away": "Spain",
       "books": [
+        "BetOnline.ag",
+        "DraftKings",
+        "Bovada",
+        "BetMGM",
+        "FanDuel",
         "BetUS",
         "MyBookie.ag",
-        "FanDuel",
-        "DraftKings",
-        "LowVig.ag",
-        "BetMGM",
-        "Bovada",
         "BetRivers",
-        "BetOnline.ag"
+        "LowVig.ag"
       ],
       "consensus": {
         "h2h": {
-          "home": 133,
-          "away": 220,
-          "draw": 225
+          "home": 132,
+          "away": 224,
+          "draw": 224
         },
         "totals": {
           "2.5": {
@@ -906,14 +868,14 @@
         },
         "spreads": {
           "0.0": {
-            "France": -150,
-            "Spain": 125
+            "France": -153,
+            "Spain": 128
           },
           "-0.25": {
-            "France": -102
+            "France": -105
           },
           "0.25": {
-            "Spain": -118
+            "Spain": -115
           }
         }
       }
@@ -921,11 +883,10 @@
   ],
   "winner_outrights": {
     "consensus": {
-      "France": 150,
-      "Spain": 310,
-      "Argentina": 430,
-      "England": 490,
-      "Norway": 1600,
+      "France": 144,
+      "Spain": 320,
+      "England": 320,
+      "Argentina": 450,
       "Switzerland": 4000
     },
     "books": [
