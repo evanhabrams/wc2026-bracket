@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-12T04:16:22.660028+00:00",
+  "updated_at": "2026-07-12T04:37:18.908042+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,19 +21,19 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-12T04:16:20.977739+00:00",
+      "as_of": "2026-07-12T04:37:17.264871+00:00",
       "source": "The Odds API",
       "events": 2
     },
     "winner_outrights": {
-      "as_of": "2026-07-12T04:16:21.146025+00:00",
+      "as_of": "2026-07-12T04:37:17.439049+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
       ]
     },
     "match_projections": {
-      "as_of": "2026-07-12T04:16:22.659836+00:00",
+      "as_of": "2026-07-12T04:37:18.907907+00:00",
       "source": "Action Network / Nick Giffen",
       "sheet": "https://docs.google.com/spreadsheets/d/12v8WebV5SakStof9ByCLxAKZWeePqbBgGyZs1dTh_DE",
       "tab": "Per Game xG",
@@ -796,15 +796,15 @@
       "home": "France",
       "away": "Spain",
       "books": [
-        "LowVig.ag",
-        "BetOnline.ag",
-        "BetUS",
-        "DraftKings",
-        "BetRivers",
-        "MyBookie.ag",
         "BetMGM",
+        "DraftKings",
+        "Bovada",
+        "BetOnline.ag",
         "FanDuel",
-        "Bovada"
+        "LowVig.ag",
+        "MyBookie.ag",
+        "BetUS",
+        "BetRivers"
       ],
       "consensus": {
         "h2h": {
@@ -838,35 +838,35 @@
       "home": "England",
       "away": "Argentina",
       "books": [
-        "BetOnline.ag",
-        "LowVig.ag",
-        "DraftKings",
-        "BetRivers",
-        "MyBookie.ag",
         "BetMGM",
+        "DraftKings",
+        "Bovada",
+        "BetOnline.ag",
         "FanDuel",
-        "Bovada"
+        "LowVig.ag",
+        "MyBookie.ag",
+        "BetRivers"
       ],
       "consensus": {
         "h2h": {
-          "home": 156,
-          "away": 198,
+          "home": 155,
+          "away": 200,
           "draw": 209
         },
         "totals": {
           "2.5": {
-            "over": 130,
-            "under": -170
+            "over": 125,
+            "under": -167
           },
           "2.0": {
-            "over": -148,
-            "under": 122
+            "over": -146,
+            "under": 126
           }
         },
         "spreads": {
           "0.0": {
-            "Argentina": 57,
-            "England": -130
+            "Argentina": 60,
+            "England": -133
           }
         }
       }
