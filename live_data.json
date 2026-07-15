@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-14T21:58:30.142355+00:00",
+  "updated_at": "2026-07-15T15:37:50.520919+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,12 +21,12 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-14T21:58:28.234241+00:00",
+      "as_of": "2026-07-15T15:37:49.116353+00:00",
       "source": "The Odds API",
-      "events": 3
+      "events": 1
     },
     "winner_outrights": {
-      "as_of": "2026-07-14T21:58:28.578235+00:00",
+      "as_of": "2026-07-15T15:37:49.272641+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
@@ -796,21 +796,21 @@
       "home": "England",
       "away": "Argentina",
       "books": [
-        "DraftKings",
-        "Bovada",
-        "BetMGM",
-        "BetUS",
-        "LowVig.ag",
+        "MyBookie.ag",
         "FanDuel",
-        "BetRivers",
+        "Bovada",
+        "BetUS",
         "BetOnline.ag",
-        "MyBookie.ag"
+        "DraftKings",
+        "BetRivers",
+        "LowVig.ag",
+        "BetMGM"
       ],
       "consensus": {
         "h2h": {
-          "home": 174,
-          "away": 197,
-          "draw": 189
+          "home": 166,
+          "away": 204,
+          "draw": 191
         },
         "totals": {
           "2.5": {
@@ -824,46 +824,10 @@
         },
         "spreads": {
           "0.0": {
-            "Argentina": -21,
-            "England": -118
+            "Argentina": 104,
+            "England": -123
           }
         }
-      }
-    },
-    {
-      "id": "fb30113e43d113f1ace48b8563ba1ee9",
-      "commence": "2026-07-19T19:00:00Z",
-      "home": "Spain",
-      "away": "Argentina",
-      "books": [
-        "FanDuel"
-      ],
-      "consensus": {
-        "h2h": {
-          "home": 135,
-          "away": 230,
-          "draw": 210
-        },
-        "totals": {},
-        "spreads": {}
-      }
-    },
-    {
-      "id": "70337f0d573aa5893d60a9a5ceb4dd97",
-      "commence": "2026-07-19T19:00:00Z",
-      "home": "Spain",
-      "away": "England",
-      "books": [
-        "FanDuel"
-      ],
-      "consensus": {
-        "h2h": {
-          "home": 145,
-          "away": 200,
-          "draw": 220
-        },
-        "totals": {},
-        "spreads": {}
       }
     }
   ],
