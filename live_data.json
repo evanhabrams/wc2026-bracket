@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-15T21:32:00.183521+00:00",
+  "updated_at": "2026-07-15T21:34:11.620085+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,12 +21,12 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-15T21:31:59.082399+00:00",
+      "as_of": "2026-07-15T21:34:10.531682+00:00",
       "source": "The Odds API",
       "events": 2
     },
     "winner_outrights": {
-      "as_of": "2026-07-15T21:31:59.223523+00:00",
+      "as_of": "2026-07-15T21:34:10.745195+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
@@ -796,17 +796,17 @@
       "home": "France",
       "away": "England",
       "books": [
+        "FanDuel",
         "BetUS",
         "BetRivers",
-        "BetMGM",
         "MyBookie.ag",
-        "FanDuel"
+        "BetMGM"
       ],
       "consensus": {
         "h2h": {
-          "home": 125,
-          "away": 224,
-          "draw": 229
+          "home": 121,
+          "away": 226,
+          "draw": 230
         },
         "totals": {
           "2.5": {
@@ -834,18 +834,18 @@
       "home": "Spain",
       "away": "Argentina",
       "books": [
+        "FanDuel",
+        "DraftKings",
         "BetUS",
         "BetRivers",
-        "BetMGM",
         "MyBookie.ag",
-        "DraftKings",
-        "FanDuel"
+        "BetMGM"
       ],
       "consensus": {
         "h2h": {
-          "home": 125,
-          "away": 262,
-          "draw": 198
+          "home": 126,
+          "away": 259,
+          "draw": 197
         },
         "totals": {
           "2.5": {
@@ -859,10 +859,10 @@
         },
         "spreads": {
           "0.5": {
-            "Argentina": -150
+            "Argentina": -153
           },
           "-0.5": {
-            "Spain": 118
+            "Spain": 120
           }
         }
       }
