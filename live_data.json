@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-15T15:37:50.520919+00:00",
+  "updated_at": "2026-07-15T18:56:16.785938+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,12 +21,12 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-15T15:37:49.116353+00:00",
+      "as_of": "2026-07-15T18:56:15.691419+00:00",
       "source": "The Odds API",
       "events": 1
     },
     "winner_outrights": {
-      "as_of": "2026-07-15T15:37:49.272641+00:00",
+      "as_of": "2026-07-15T18:56:15.805159+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
@@ -796,36 +796,34 @@
       "home": "England",
       "away": "Argentina",
       "books": [
-        "MyBookie.ag",
-        "FanDuel",
-        "Bovada",
+        "BetMGM",
         "BetUS",
-        "BetOnline.ag",
         "DraftKings",
-        "BetRivers",
         "LowVig.ag",
-        "BetMGM"
+        "BetOnline.ag",
+        "MyBookie.ag",
+        "FanDuel"
       ],
       "consensus": {
         "h2h": {
-          "home": 166,
-          "away": 204,
-          "draw": 191
+          "home": 167,
+          "away": 206,
+          "draw": 188
         },
         "totals": {
           "2.5": {
-            "over": 138,
-            "under": -178
+            "over": 150,
+            "under": -165
           },
           "2.0": {
-            "over": -131,
-            "under": 111
+            "over": -129,
+            "under": 110
           }
         },
         "spreads": {
           "0.0": {
-            "Argentina": 104,
-            "England": -123
+            "Argentina": 106,
+            "England": -124
           }
         }
       }
@@ -835,7 +833,7 @@
     "consensus": {
       "Spain": -156,
       "England": 300,
-      "Argentina": 400
+      "Argentina": 380
     },
     "books": [
       "DraftKings"
