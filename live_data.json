@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-15T21:34:11.620085+00:00",
+  "updated_at": "2026-07-16T19:56:25.574848+00:00",
   "data_sources": {
     "fifa_rank": {
       "as_of": "2026-06-11",
@@ -21,12 +21,12 @@
       "note": "Full BETSiE refresh. Authoritative through next update."
     },
     "match_odds": {
-      "as_of": "2026-07-15T21:34:10.531682+00:00",
+      "as_of": "2026-07-16T19:56:24.275173+00:00",
       "source": "The Odds API",
       "events": 2
     },
     "winner_outrights": {
-      "as_of": "2026-07-15T21:34:10.745195+00:00",
+      "as_of": "2026-07-16T19:56:24.447127+00:00",
       "source": "The Odds API",
       "books": [
         "DraftKings"
@@ -796,34 +796,38 @@
       "home": "France",
       "away": "England",
       "books": [
-        "FanDuel",
-        "BetUS",
         "BetRivers",
+        "FanDuel",
+        "LowVig.ag",
         "MyBookie.ag",
-        "BetMGM"
+        "BetUS",
+        "Bovada",
+        "BetOnline.ag",
+        "BetMGM",
+        "DraftKings"
       ],
       "consensus": {
         "h2h": {
-          "home": 121,
-          "away": 226,
-          "draw": 230
+          "home": -112,
+          "away": 281,
+          "draw": 286
         },
         "totals": {
-          "2.5": {
-            "over": -130,
-            "under": 52
+          "3.5": {
+            "over": 108,
+            "under": -138
+          },
+          "3.0": {
+            "over": -145,
+            "under": 127
           }
         },
         "spreads": {
           "0.5": {
-            "England": -163
+            "England": -108
           },
           "-0.5": {
-            "France": 117
-          },
-          "0.0": {
-            "England": 120,
-            "France": -140
+            "France": -114
           }
         }
       }
@@ -834,35 +838,48 @@
       "home": "Spain",
       "away": "Argentina",
       "books": [
-        "FanDuel",
-        "DraftKings",
-        "BetUS",
         "BetRivers",
+        "FanDuel",
+        "LowVig.ag",
         "MyBookie.ag",
-        "BetMGM"
+        "BetUS",
+        "Bovada",
+        "BetOnline.ag",
+        "BetMGM",
+        "DraftKings"
       ],
       "consensus": {
         "h2h": {
-          "home": 126,
-          "away": 259,
-          "draw": 197
+          "home": 129,
+          "away": 257,
+          "draw": 200
         },
         "totals": {
           "2.5": {
-            "over": 133,
-            "under": -171
+            "over": 126,
+            "under": -157
           },
           "2.0": {
-            "over": -138,
-            "under": 108
+            "over": -148,
+            "under": 125
           }
         },
         "spreads": {
           "0.5": {
-            "Argentina": -153
+            "Argentina": -149
           },
           "-0.5": {
-            "Spain": 120
+            "Spain": 130
+          },
+          "0.0": {
+            "Argentina": 121,
+            "Spain": -169
+          },
+          "0.25": {
+            "Argentina": -108
+          },
+          "-0.25": {
+            "Spain": -112
           }
         }
       }
